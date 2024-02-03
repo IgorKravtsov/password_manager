@@ -11,12 +11,16 @@ abstract interface class IPasswordFileEncrypter {
 }
 
 class PasswordFileEncrypter implements IPasswordFileEncrypter {
-  static const _segmentsDivider = '\n\n===**********===\n\n';
-  static const _titleContentDivider = '\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\n';
+  final String segmentsDivider;
+  final String titleContentDivider;
 
   late final IContentEncrypter _contentEncrypter;
 
-  PasswordFileEncrypter({required IContentEncrypter contentEncrypter}) {
+  PasswordFileEncrypter({
+    required IContentEncrypter contentEncrypter,
+    this.segmentsDivider = '\n\n====================\n\n',
+    this.titleContentDivider = '\n******************************\n',
+  }) {
     _contentEncrypter = contentEncrypter;
   }
 
@@ -26,14 +30,14 @@ class PasswordFileEncrypter implements IPasswordFileEncrypter {
     String secretKey,
   ) async {
     final segments =
-        _contentEncrypter.decrypt(content, secretKey).split(_segmentsDivider);
+        _contentEncrypter.decrypt(content, secretKey).split(segmentsDivider);
 
     List<PasswordFileSegmentModel> result = [];
     for (int i = 0; i < segments.length; i++) {
       final segment = segments[i];
       if (segment.isEmpty) continue;
 
-      final titleContent = segment.split(_titleContentDivider);
+      final titleContent = segment.split(titleContentDivider);
       if (titleContent.length != 2) {
         throw Exception('Invalid segment: $segment, index: $i');
       }
@@ -54,10 +58,10 @@ class PasswordFileEncrypter implements IPasswordFileEncrypter {
     String result = '';
     for (int i = 0; i < models.length; i++) {
       final model = models[i];
-      result += '${model.title}$_titleContentDivider${model.content}';
+      result += '${model.title}$titleContentDivider${model.content}';
 
       if (i != models.length - 1) {
-        result += _segmentsDivider;
+        result += segmentsDivider;
       }
     }
     return _contentEncrypter.encrypt(result, secretKey);

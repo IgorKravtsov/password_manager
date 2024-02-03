@@ -12,8 +12,16 @@ abstract interface class IDecryptedPasswordFileSaver {
 }
 
 class DecryptedPasswordFileSaver implements IDecryptedPasswordFileSaver {
-  static const _segmentsDivider = '\n\n====================\n\n';
-  static const _titleContentDivider = '\n******************************\n';
+  // static const _segmentsDivider = '\n\n====================\n\n';
+  // static const _titleContentDivider = '\n******************************\n';
+
+  final String segmentsDivider;
+  final String titleContentDivider;
+
+  const DecryptedPasswordFileSaver({
+    this.segmentsDivider = '\n\n====================\n\n',
+    this.titleContentDivider = '\n******************************\n',
+  });
 
   @override
   Future<void> save(
@@ -25,8 +33,8 @@ class DecryptedPasswordFileSaver implements IDecryptedPasswordFileSaver {
     final file = File(path);
 
     final content = segments
-        .map((e) => '${e.title}$_titleContentDivider${e.content}')
-        .join(_segmentsDivider);
+        .map((e) => '${e.title}$titleContentDivider${e.content}')
+        .join(segmentsDivider);
 
     try {
       await file.create();

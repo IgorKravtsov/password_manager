@@ -96,21 +96,27 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
       emit(state.copyWith(selectedFile: file));
 
   Future<void> _saveToFile(PasswordFileModel passwordFile) async {
-    final file = File(passwordFile.pathToFile);
-    final encryptedContent = await _passwordFileEncrypter.encryptSegments(
-      passwordFile.segments,
-      passwordFile.secretKey,
-    );
-    await file.writeAsString(encryptedContent);
-    
-    void saveCopy() {
-      final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
-      final path = file.path.replaceFirst('.txt', '_$date.txt');
-      final fileCopy = File('${path}_copy');
-      fileCopy.writeAsStringSync(encryptedContent);
-    }
+    try {
+      final file = File(passwordFile.pathToFile);
+      final encryptedContent = await _passwordFileEncrypter.encryptSegments(
+        passwordFile.segments,
+        passwordFile.secretKey,
+      );
+      await file.writeAsString(encryptedContent);
 
-    saveCopy();
+      void saveCopy() {
+        final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        final path = file.path.replaceFirst('.txt', '_$date.txt');
+        final fileCopy = File('${path}_copy');
+        fileCopy.writeAsString(encryptedContent);
+      }
+
+      saveCopy();
+    } catch (e) {
+      log('error: $e');
+      rethrow;
+    }
+    
   }
 
   void saveSearch(String text) {

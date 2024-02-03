@@ -84,6 +84,11 @@ class _PasswordFileEditableSegmentsState
       child: Stack(children: [
         BlocBuilder<PasswordFilesDecryptedCubit, DecryptedPasswordFilesState>(
           builder: (context, state) {
+
+            if (widget.passwordFile.segments.isEmpty) {
+              return _buildEmptyState();
+            }
+
             final searchText = state.searchText.toLowerCase();
             final searchedSegments =
                 widget.passwordFile.segments.where((element) {
@@ -135,6 +140,28 @@ class _PasswordFileEditableSegmentsState
       ]),
     );
   }
+
+  Center _buildEmptyState() => Center(
+          child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text('No segments found'),
+          const SizedBox(height: 20),
+          FilledButton(
+              onPressed: () {
+                _buildBottomSheet(
+                    context,
+                    const PasswordFileSegmentModel(
+                      content: '',
+                      title: '',
+                    ),
+                    null);
+              },
+              child: const Text(
+                'Add it!',
+              )),
+        ],
+      ));
 
   Future<void> _buildBottomSheet(
       BuildContext context, PasswordFileSegmentModel segment, int? index) {
