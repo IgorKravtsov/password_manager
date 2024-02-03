@@ -1,0 +1,13 @@
+{
+  "chooseDirectoryWhereToSaveConfigurationFile": "Choose directory where to save configuration file",
+  "or": "or",
+  "chooseExistingConfigurationFile": "choose existing configuration file",
+  "chooseDirectory": "Choose directory",
+  "chooseExistingFile": "Choose existing file",
+  "filePath": "File path",
+  "save": "Save",
+  "pleaseEnterAValidPath": "Please enter a valid path",
+  "goToConfiguration": "Go to configuration",
+  "someErrorOccuredPleaseGoToConfiguration": "Some error occured, please go to configuration",
+  "passwordFilesEmptyText": "No files found. Press + to add one."
+}

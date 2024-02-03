@@ -1,0 +1,34 @@
+name: password_manager
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.5 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+  file_picker: ^6.1.1
+  go_router: ^13.0.1
+  flutter_bloc: ^8.1.3
+  equatable: ^2.0.5
+  encrypt: ^5.0.3
+  bloc: ^8.1.2
+  uuid: ^4.3.3
+  platform_info: ^4.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+flutter_intl:
+  enabled: true
