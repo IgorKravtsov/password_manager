@@ -15,9 +15,7 @@ class ConfigurationForm extends StatefulWidget {
 }
 
 class _ConfigurationFormState extends State<ConfigurationForm> {
-  final _filePathController = TextEditingController(
-    text: '/Volumes/Macintosh HD/Users/igorkravtsov/user/trash',
-  );
+  final _filePathController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override

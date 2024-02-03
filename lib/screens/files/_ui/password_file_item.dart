@@ -45,58 +45,6 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
     setState(() {});
   }
 
-  // void _tmp() {
-  //   // const stringKey = 'my 32 length key................';
-  //   // const stringKey = 'абвгдежзийклмноп';
-  //   // const stringKey = '\$@#%&*()_+{}|:<>';
-  //   // final key = Key.fromUtf8(stringKey);
-  //   // final strKey = Key.fromSecureRandom(32).base64;
-  //   // log('strKey: $strKey');
-  //   // final key = Key.fromBase64(strKey);
-  //   final key = Key.fromUtf8(_keyController.text);
-
-  //   const plainText =
-  //       "lorem ipsum example example дцйокшщцйокшщцйокг шйщшкоцйшщко шщйцкощшцйк шйокщшйоцкщш оцйшщйокщйшцокшщцй окцйшщкощшйцокшщцйкощшцй оцшщйкойцщшкошщцйкошщйцкошщцйошщкощшйцкщй";
-
-  //   final iv = IV.fromLength(16);
-
-  //   final encrypter = Encrypter(AES(key));
-
-  //   Encrypted encrypted = encrypter.encrypt(plainText, iv: iv);
-  //   log('encrypted: ${encrypted.base64}');
-  //   String decryptedText = encrypter.decrypt(encrypted, iv: iv);
-  //   log(decryptedText);
-  // }
-
-  // void _tmp2() async {
-  //   // Specify the desired directory path
-  //   const directoryPath = './config';
-
-  //   // Ensure the directory exists
-  //   if (!await Directory(directoryPath).exists()) {
-  //     await Directory(directoryPath)
-  //         .create(recursive: true); // Create recursively
-  //     print('Directory created: $directoryPath');
-  //   } else {
-  //     print('Directory already exists: $directoryPath');
-  //   }
-
-  //   // Specify the file path
-  //   const filePath = '$directoryPath/config.json';
-
-  //   // Ensure the file exists and contains the initial array structure
-  //   if (!await File(filePath).exists()) {
-  //     final initialData = <Map<String, String>>[
-  //       {'filePath': '', 'key': ''},
-  //       // Add more objects as needed
-  //     ];
-  //     await File(filePath).writeAsString(jsonEncode(initialData));
-  //     print('File created with initial data: $filePath');
-  //   } else {
-  //     print('File already exists: $filePath');
-  //   }
-  // }
-
   void _handleSave(BuildContext context) {
     widget.onSave?.call(
       ConfigModel(
@@ -107,17 +55,9 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
       widget.index,
       context,
     );
-    // context.read<PasswordFilesBloc>().add(
-    //       PasswordFilesSaveFile(
-    //         pathToFile: _filePathController.text,
-    //         secretKey: _keyController.text,
-    //         index: widget.index,
-    //       ),
-    //     );
   }
 
   bool _isSaveDisabled() {
-    // return false;
     if (_filePathController.text.isEmpty || _keyController.text.isEmpty) {
       return true;
     }
@@ -154,7 +94,7 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
                   onChanged: (value) => setState(() {}),
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'File path',
+                    labelText: 'Path to encrypted or empty file',
                   ),
                 ),
               ),

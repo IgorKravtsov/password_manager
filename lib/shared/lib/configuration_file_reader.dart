@@ -12,6 +12,8 @@ class ConfigurationFileReader implements IConfigurationFileReader {
   static const _standardConfigurationFileName =
       'password_manager_configuration.json';
 
+  const ConfigurationFileReader();
+
   bool _isValid(String? path) => path != null && path.isNotEmpty;
 
   bool _isFile(String? path) =>

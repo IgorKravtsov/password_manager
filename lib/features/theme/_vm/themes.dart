@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' show Colors;
+import 'package:password_manager/shared/lib/theme_configuration.dart';
 
-import 'theme_configuration.dart';
+
 
 class Themes {
   //TODO: add translations for theme name

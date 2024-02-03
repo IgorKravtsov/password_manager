@@ -26,9 +26,7 @@ class PasswordFilesList extends StatelessWidget {
         ? _buildEmptyState(context)
         : SingleChildScrollView(
             child: Column(
-            children: [
-              // Note: not using ListView.builder because it removes state of widgets while scrolling.
-              // It is not necessary to use it here
+              children: [
               for (var i = 0; i < configs.length; i++)
                 PasswordFileItem(
                   key: ValueKey(configs[i].id),
@@ -39,26 +37,9 @@ class PasswordFilesList extends StatelessWidget {
                   onSave: onSaveFile,
                 ),
             ],
-          ));
+            ),
+          );
 
-    // ListView.builder(
-    //     itemBuilder: (context, index) {
-    //       final config = configs[index];
-    //       return Column(
-    //         children: [
-    //           Text(config.id),
-    //           PasswordFileItem(
-    //             key: ValueKey(config.id),
-    //             index: index,
-    //             config: config,
-    //             // initialFilePath: config.pathToFile,
-    //             // initialKey: config.secretKey,
-    //           ),
-    //         ],
-    //       );
-    //     },
-    //     itemCount: configs.length,
-    //   );
   }
 
   Widget _buildEmptyState(BuildContext context) {

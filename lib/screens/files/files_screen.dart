@@ -2,14 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:password_manager/entities/config/config.dart';
 import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/screens/files/_ui/password_files_list.dart';
 import 'package:password_manager/screens/files/_vm/bloc/password_files_bloc.dart';
-import 'package:password_manager/shared/lib/configuration_file.dart';
+import 'package:password_manager/shared/lib/configuration_file_reader.dart';
 import 'package:password_manager/shared/lib/location.dart';
 import 'package:password_manager/shared/lib/content_encrypter.dart';
+import 'package:password_manager/shared/ui/page_title.dart';
+import 'package:password_manager/widgets/main_bottom_navigation_bar/main_bottom_navigation_bar.dart';
 
 class FilesScreen extends StatelessWidget {
   const FilesScreen({super.key});
@@ -61,33 +64,35 @@ class FilesScreen extends StatelessWidget {
     return BlocProvider(
       create: _createBlocProvider,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Files'),
-          centerTitle: true,
-        ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: BlocConsumer<PasswordFilesBloc, PasswordFilesState>(
-            listener: (context, state) {
-              if (state is PasswordFilesError) {
-                _showErrorSnackBar(context, state.message);
-              }
-            },
-            builder: (context, state) {
-              final configState = context.read<ConfigurationFileBloc>().state;
-              if (configState is ConfigurationFileLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (configState is! ConfigurationFileLoaded) {
-                return _buildErrorElements(context);
-              }
-              return PasswordFilesList(
-                configs: state.configs,
-                onSaveFile: _handleSaveFile,
-                onDeleteFile: _handleDeleteFile,
-                encryptor: AESEncrypter(),
-              );
-            },
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+          child: Column(
+            children: [
+              const PageTitle(text: 'Password files configuration'),
+              BlocConsumer<PasswordFilesBloc, PasswordFilesState>(
+                listener: (context, state) {
+                  if (state is PasswordFilesError) {
+                    _showErrorSnackBar(context, state.message);
+                  }
+                },
+                builder: (context, state) {
+                  final configState =
+                      context.read<ConfigurationFileBloc>().state;
+                  if (configState is ConfigurationFileLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (configState is! ConfigurationFileLoaded) {
+                    return _buildErrorElements(context);
+                  }
+                  return PasswordFilesList(
+                    configs: state.configs,
+                    onSaveFile: _handleSaveFile,
+                    onDeleteFile: _handleDeleteFile,
+                    encryptor: GetIt.I<IContentEncrypter>(),
+                  );
+                },
+              ),
+            ],
           ),
         ),
         floatingActionButton: Builder(builder: (context) {
@@ -98,13 +103,15 @@ class FilesScreen extends StatelessWidget {
             child: const Icon(Icons.add),
           );
         }),
+        bottomNavigationBar: const MainBottomNavigationBar(currentIndex: 1),
       ),
     );
   }
 
   PasswordFilesBloc _createBlocProvider(BuildContext context) {
     final state = context.read<ConfigurationFileBloc>().state;
-    final bloc = PasswordFilesBloc(configFileReader: ConfigurationFileReader());
+    final bloc =
+        PasswordFilesBloc(configFileReader: const ConfigurationFileReader());
     if (state is ConfigurationFileLoaded) {
       bloc.add(PasswordFilesLoad(state.configs));
     }

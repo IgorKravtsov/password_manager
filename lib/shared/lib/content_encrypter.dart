@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:encrypt/encrypt.dart';
 
 abstract interface class IContentEncrypter {
@@ -28,7 +26,6 @@ class AESEncrypter implements IContentEncrypter {
     );
 
     final encrypted = encrypter.encrypt(content, iv: iv);
-    log('encrypted: ${encrypted.base64}');
     return encrypted.base64;
   }
 

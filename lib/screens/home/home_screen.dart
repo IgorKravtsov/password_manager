@@ -2,35 +2,29 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart' hide Key;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:password_manager/entities/config/_vm/bloc/configuration_file_bloc.dart';
+import 'package:password_manager/entities/password_file/password_file.dart';
 import 'package:password_manager/features/decrypted_password_file/decrypted_password_file.dart';
+import 'package:password_manager/shared/lib/database.dart';
 import 'package:password_manager/shared/lib/location.dart';
 import 'package:password_manager/features/theme/theme.dart';
+import 'package:password_manager/widgets/main_bottom_navigation_bar/main_bottom_navigation_bar.dart';
+
+import '_ui/password_files_decrypted_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  // void _encrypt() {
-  //   const plainText =
-  //       'One\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\nHello World1\n\n===**********===\n\nTwo\n_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-\nHello World2!';
-
-  //   final iv = IV.fromLength(16);
-
-  //   final encrypter = Encrypter(
-  //     AES(
-  //       Key.fromUtf8('12340000000000000000000000000000'),
-  //       mode: AESMode.ecb,
-  //       padding: 'PKCS7',
-  //     ),
-  //   );
-
-  //   Encrypted encrypted = encrypter.encrypt(plainText, iv: iv);
-  //   log('encrypted: ${encrypted.base64}');
-  //   final decryptedText = encrypter.decrypt(encrypted, iv: iv);
-  //   String.fromCharCodes(decryptedText.codeUnits);
-  //   log(decryptedText);
-  // }
+  PasswordFilesDecryptedCubit _createCubit(BuildContext context) {
+    final configurationFileState = context.read<ConfigurationFileBloc>().state;
+    return PasswordFilesDecryptedCubit(
+      encrypter: GetIt.I<IPasswordFileEncrypter>(),
+      decryptedPasswordFileSaver: GetIt.I<IDecryptedPasswordFileSaver>(),
+      database: GetIt.I<IDatabase>(),
+    )..decryptPasswordFiles(configurationFileState.configs);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,55 +36,29 @@ class HomeScreen extends StatelessWidget {
     // });
     return Scaffold(
       body: BlocBuilder<ConfigurationFileBloc, ConfigurationFileState>(
-        builder: (context, state) {
-          if (state is ConfigurationFileLoading) {
+          builder: (context, state) {
+            if (state is ConfigurationFileInitError) {
+              return _buildEmptyState(context);
+            }
+
+            if (state is ConfigurationFileLoaded) {
+              return const SingleChildScrollView(
+                child: PasswordFilesDecryptedList(),
+              );
+            }
+
             return const Center(
               child: CircularProgressIndicator(),
             );
-          }
-
-          if (state is ConfigurationFileInitError) {
-            return _buildEmptyState(context);
-          }
-
-          return const SingleChildScrollView(
-            child: PasswordFilesDecryptedList(),
-          );
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.folder),
-            label: 'Files',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-          // Destination(
-          //   title: 'Files',
-          //   icon: Icons.folder,
-          // ),
-          // Destination(
-          //   title: 'Configuration',
-          //   icon: Icons.settings,
-          // ),
-        ],
-      ),
-    );
+          },
+        ),
+        bottomNavigationBar: const MainBottomNavigationBar(currentIndex: 0));
   }
 
   Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             'Seems like you don\'t have password files selected.',
@@ -110,10 +78,6 @@ class HomeScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               )),
-          // TextButton(
-          //   onPressed: () => context.go(Location.files),
-          //   child: const Text('Go to Files'),
-          // ),
         ],
       ),
     );

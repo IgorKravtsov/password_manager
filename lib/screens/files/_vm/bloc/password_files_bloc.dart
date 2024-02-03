@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:password_manager/entities/config/config.dart';
-import 'package:password_manager/shared/lib/configuration_file.dart';
+import 'package:password_manager/shared/lib/configuration_file_reader.dart';
 
 import 'package:uuid/uuid.dart';
 

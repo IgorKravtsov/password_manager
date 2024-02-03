@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:password_manager/shared/lib/location.dart';
 
+import 'package:password_manager/screens/theme/theme.dart';
 import 'package:password_manager/screens/configuration/configuration.dart';
 import 'package:password_manager/screens/files/files.dart';
 import 'package:password_manager/screens/home/home.dart';
@@ -44,6 +45,16 @@ final router = GoRouter(routes: [
                   context,
                   state.pageKey,
                   const ConfigurationScreen(),
+                );
+              },
+            ),
+            GoRoute(
+              path: Location.path(Location.theme),
+              pageBuilder: (context, state) {
+                return Location.buildPage(
+                  context,
+                  state.pageKey,
+                  const ThemeScreen(),
                 );
               },
             )

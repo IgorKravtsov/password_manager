@@ -33,20 +33,13 @@ class _PasswrodInputState extends State<PasswrodInput> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return TextField(
       controller: widget.controller,
       maxLength: widget.maxLenth,
       onChanged: widget.onChanged,
       decoration: InputDecoration(
         labelText: widget.labelText,
-        // labelStyle: theme.textTheme.bodyMedium?.copyWith(
-        //   color: theme.primaryColor,
-        // ),
-        // errorBorder: _buildOutlineBorder(context, color: Colors.redAccent),
         border: _buildOutlineBorder(context),
-        // enabledBorder: _buildOutlineBorder(context),
-        // focusedBorder: _buildOutlineBorder(context),
         prefixIcon: widget.prefixIcon ?? const Icon(Icons.lock),
         suffixIcon: IconButton(
           onPressed: _togglePasswordVisibility,
@@ -54,19 +47,12 @@ class _PasswrodInputState extends State<PasswrodInput> {
               ? const Icon(Icons.visibility)
               : const Icon(Icons.visibility_off),
         ),
-        // fillColor: theme.colorScheme.primaryContainer,
-        // prefixIconColor: theme.primaryColor,
-        // suffixIconColor: theme.primaryColor,
       ),
       obscureText: !isPasswordVisible,
     );
   }
 
   OutlineInputBorder _buildOutlineBorder(BuildContext context, {Color? color}) {
-    final theme = Theme.of(context);
-    return const OutlineInputBorder(
-        // borderRadius: BorderRadius.circular(16),
-        // borderSide: BorderSide(color: color ?? theme.primaryColor),
-        );
+    return const OutlineInputBorder();
   }
 }

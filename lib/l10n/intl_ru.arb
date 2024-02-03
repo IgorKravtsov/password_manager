@@ -9,5 +9,6 @@
   "pleaseEnterAValidPath": "Please enter a valid path",
   "goToConfiguration": "Go to configuration",
   "someErrorOccuredPleaseGoToConfiguration": "Some error occured, please go to configuration",
-  "passwordFilesEmptyText": "No files found. Press + to add one."
+  "passwordFilesEmptyText": "No files found. Press + to add one.",
+  "theme": "Тема"
 }

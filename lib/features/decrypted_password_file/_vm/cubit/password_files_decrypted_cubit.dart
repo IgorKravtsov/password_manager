@@ -7,6 +7,7 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:password_manager/entities/config/config.dart';
 import 'package:password_manager/entities/password_file/password_file.dart';
+import 'package:password_manager/shared/lib/database.dart';
 
 part 'password_files_decrypted_state.dart';
 
@@ -24,13 +25,16 @@ final List<PasswordFileSegmentModel> FAKE_SEGMENTS = [
 class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
   late final IPasswordFileEncrypter _passwordFileEncrypter;
   late final IDecryptedPasswordFileSaver _decryptedPasswordFileSaver;
+  late final IDatabase _database;
 
   PasswordFilesDecryptedCubit(
       {required IPasswordFileEncrypter encrypter,
-      required IDecryptedPasswordFileSaver decryptedPasswordFileSaver})
+      required IDecryptedPasswordFileSaver decryptedPasswordFileSaver,
+      required IDatabase database})
       : super(const DecryptedPasswordFilesState(decryptedFiles: [])) {
     _passwordFileEncrypter = encrypter;
     _decryptedPasswordFileSaver = decryptedPasswordFileSaver;
+    _database = database;
   }
 
   void decryptPasswordFiles(List<ConfigModel> configs) async {
@@ -92,8 +96,10 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
     }
   }
 
-  void selectFile(PasswordFileModel? file) =>
+  void selectFile(PasswordFileModel file) async {
       emit(state.copyWith(selectedFile: file));
+    await _database.saveLastSelectedFilePath(file.pathToFile);
+  }
 
   Future<void> _saveToFile(PasswordFileModel passwordFile) async {
     try {

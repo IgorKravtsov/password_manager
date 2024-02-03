@@ -64,7 +64,7 @@ class _PasswordFileEditableSegmentsState
         segments: segments,
         completer: completer);
     await completer.future;
-    navigator.pop();
+    if (navigator.canPop()) navigator.pop();
     setState(() {});
   }
 
