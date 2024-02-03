@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:password_manager/entities/config/config.dart';
 import 'package:password_manager/entities/password_file/password_file.dart';
 
@@ -22,10 +23,14 @@ final List<PasswordFileSegmentModel> FAKE_SEGMENTS = [
 
 class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
   late final IPasswordFileEncrypter _passwordFileEncrypter;
+  late final IDecryptedPasswordFileSaver _decryptedPasswordFileSaver;
 
-  PasswordFilesDecryptedCubit({required IPasswordFileEncrypter encrypter})
+  PasswordFilesDecryptedCubit(
+      {required IPasswordFileEncrypter encrypter,
+      required IDecryptedPasswordFileSaver decryptedPasswordFileSaver})
       : super(const DecryptedPasswordFilesState(decryptedFiles: [])) {
     _passwordFileEncrypter = encrypter;
+    _decryptedPasswordFileSaver = decryptedPasswordFileSaver;
   }
 
   void decryptPasswordFiles(List<ConfigModel> configs) async {
@@ -48,7 +53,10 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
           // segments: FAKE_SEGMENTS,
         ));
       }
-      emit(DecryptedPasswordFilesState(decryptedFiles: decryptedFiles));
+      emit(DecryptedPasswordFilesState(
+        decryptedFiles: decryptedFiles,
+        selectedFile: decryptedFiles.first,
+      ));
     } catch (e) {
       log('error: $e');
       emit(
@@ -73,7 +81,7 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
       final updatedPasswordFile = passwordFile.copyWith(segments: segments);
       await _saveToFile(updatedPasswordFile);
       decryptedFiles[index] = updatedPasswordFile;
-      emit(DecryptedPasswordFilesState(decryptedFiles: decryptedFiles));
+      emit(state.copyWith(decryptedFiles: decryptedFiles));
     } catch (e) {
       emit(
         PasswordFilesDecryptionFailed(
@@ -84,8 +92,8 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
     }
   }
 
-  void selectFile(PasswordFileModel? file) => emit(DecryptedPasswordFilesState(
-      decryptedFiles: state.decryptedFiles, selectedFile: file));
+  void selectFile(PasswordFileModel? file) =>
+      emit(state.copyWith(selectedFile: file));
 
   Future<void> _saveToFile(PasswordFileModel passwordFile) async {
     final file = File(passwordFile.pathToFile);
@@ -94,5 +102,39 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
       passwordFile.secretKey,
     );
     await file.writeAsString(encryptedContent);
+    
+    void saveCopy() {
+      final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      final path = file.path.replaceFirst('.txt', '_$date.txt');
+      final fileCopy = File('${path}_copy');
+      fileCopy.writeAsStringSync(encryptedContent);
+    }
+
+    saveCopy();
+  }
+
+  void saveSearch(String text) {
+    emit(state.copyWith(searchText: text));
+  }
+
+  void exportDecryptedFile(String path) async {
+    if (state.selectedFile == null) return;
+
+    final filePath = '$path/${state.selectedFile!.fileName}';
+
+    try {
+      await _decryptedPasswordFileSaver.save(
+          filePath, state.selectedFile!.segments);
+    } catch (e) {
+      log('error: $e');
+      emit(
+        PasswordFilesSavingFailed(
+          message: e.toString(),
+          decryptedFiles: state.decryptedFiles,
+          selectedFile: state.selectedFile,
+          searchText: state.searchText,
+        ),
+      );
+    }
   }
 }

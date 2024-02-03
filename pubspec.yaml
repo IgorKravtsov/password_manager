@@ -22,6 +22,7 @@ dependencies:
   bloc: ^8.1.2
   uuid: ^4.3.3
   platform_info: ^4.0.2
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

@@ -53,8 +53,6 @@ class _PasswordFileSegmentElementState
   void initState() {
     _titleController.text = widget.segment.title;
     _contentController.text = widget.segment.content;
-    // log(widget.segment.title);
-    // log(widget.segment.content);
     super.initState();
   }
 

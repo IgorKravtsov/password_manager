@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,9 @@ import 'package:password_manager/entities/password_file/password_file.dart';
 
 import '../_vm/cubit/password_files_decrypted_cubit.dart';
 import 'password_segment_element.dart';
+
+const maxContentLength = 60;
+const heightDiffForAddButton = 250;
 
 enum PasswordFileSegmentElementView { list, grid }
 
@@ -64,33 +68,51 @@ class _PasswordFileEditableSegmentsState
     setState(() {});
   }
 
+  String _getSegmentContent(PasswordFileSegmentModel segment) {
+    return segment.content.length > maxContentLength
+        ? '${segment.content.substring(0, maxContentLength).replaceAll('\n\n\n\n', '\n')}...'
+        : segment.content;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: MediaQuery.of(context).size.height - 150,
-        maxHeight: MediaQuery.of(context).size.height - 150,
+        minHeight: MediaQuery.of(context).size.height - heightDiffForAddButton,
+        maxHeight: MediaQuery.of(context).size.height - heightDiffForAddButton,
       ),
       child: Stack(children: [
-        ListView.separated(
-            separatorBuilder: (context, index) => const Divider(),
-            itemCount: widget.passwordFile.segments.length,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              final segment = widget.passwordFile.segments[index];
-              return ListTile(
-                  title: Text(segment.title),
-                  subtitle: Text(segment.content),
-                  onTap: () => _buildBottomSheet(context, segment, index),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => _showDeleteDialog(
-                      context: context,
-                      index: index,
-                    ),
-                  ));
-            }),
+        BlocBuilder<PasswordFilesDecryptedCubit, DecryptedPasswordFilesState>(
+          builder: (context, state) {
+            final searchText = state.searchText.toLowerCase();
+            final searchedSegments =
+                widget.passwordFile.segments.where((element) {
+              final title = element.title.toLowerCase();
+              final content = element.content.toLowerCase();
+              return title.contains(searchText) || content.contains(searchText);
+            }).toList();
+
+            return ListView.separated(
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: searchedSegments.length,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final segment = searchedSegments[index];
+                  return ListTile(
+                      title: Text(segment.title),
+                      subtitle: Text(_getSegmentContent(segment)),
+                      onTap: () => _buildBottomSheet(context, segment, index),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () => _showDeleteDialog(
+                          context: context,
+                          index: index,
+                        ),
+                      ));
+                });
+          },
+        ),
         Positioned(
           bottom: 30,
           right: 30,
