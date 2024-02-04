@@ -17,7 +17,8 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.2),
+          // padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.15),
+          padding: const EdgeInsets.all(100.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

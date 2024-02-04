@@ -1,3 +1,4 @@
+
 import 'package:go_router/go_router.dart';
 
 import 'package:password_manager/shared/lib/location.dart';
@@ -8,7 +9,8 @@ import 'package:password_manager/screens/files/files.dart';
 import 'package:password_manager/screens/home/home.dart';
 import 'package:password_manager/screens/settings/settings.dart';
 
-final router = GoRouter(routes: [
+final router = GoRouter(
+  routes: [
   GoRoute(
     name: Location.home,
     path: Location.home,
@@ -60,5 +62,6 @@ final router = GoRouter(routes: [
             )
           ]),
     ],
-  ),
-]);
+    ),
+  ],
+);

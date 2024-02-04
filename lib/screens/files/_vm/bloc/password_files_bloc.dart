@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -71,6 +72,10 @@ class PasswordFilesBloc extends Bloc<PasswordFilesEvent, PasswordFilesState> {
     try {
       final List<ConfigModel> configs = List.from(state.configs);
       configs[event.index] = event.config;
+      final file = File(event.config.pathToFile);
+      if (!await file.exists()) {
+        await file.create();
+      }
       await _configurationFileReader.save(
         event.pathToConfigFile,
         configs.map((config) => config.toMap()).toList(),

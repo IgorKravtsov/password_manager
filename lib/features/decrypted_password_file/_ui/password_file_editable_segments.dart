@@ -167,23 +167,28 @@ class _PasswordFileEditableSegmentsState
       BuildContext context, PasswordFileSegmentModel segment, int? index) {
     return showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       constraints: BoxConstraints(
-        minHeight: MediaQuery.of(context).size.height,
+        minHeight: MediaQuery.of(context).size.height / 2,
         minWidth: double.infinity,
       ),
       builder: (BuildContext innerContext) {
         return BlocProvider.value(
           value: context.watch<PasswordFilesDecryptedCubit>(),
-          child: Column(
-            children: [
-              const SizedBox(height: 40),
-              PasswordFileSegmentElement(
-                segment: segment,
-                index: index,
-                onSave: _handleSave,
-                onDelete: _showDeleteDialog,
-              ),
-            ],
+          child: Wrap(children: [
+            Column(
+              children: [
+                const SizedBox(height: 40),
+                PasswordFileSegmentElement(
+                  segment: segment,
+                  index: index,
+                  onSave: _handleSave,
+                  onDelete: _showDeleteDialog,
+                ),
+                const SizedBox(height: 50)
+              ],
+            ),
+          ]
           ),
         );
       },

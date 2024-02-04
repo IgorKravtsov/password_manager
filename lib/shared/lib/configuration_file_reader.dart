@@ -67,7 +67,9 @@ class ConfigurationFileReader implements IConfigurationFileReader {
     try {
       final pathToFile =
           _isFile(path) ? path! : '$path/$_standardConfigurationFileName';
-      await File(pathToFile).writeAsString(json.encode(content));
+
+      final file = await _safeCreateFile(pathToFile);
+      await file.writeAsString(json.encode(content));
     } catch (e) {
       rethrow;
     }

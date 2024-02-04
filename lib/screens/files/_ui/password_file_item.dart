@@ -35,13 +35,20 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
   final _keyController = TextEditingController();
 
   void _handleSelectFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    // FilePickerResult? result = await FilePicker.platform.pickFiles(
+    //   type: FileType.custom,
+    //   allowedExtensions: ['txt'],
+    // );
+    final filePath = await FilePicker.platform.saveFile(
+      dialogTitle: 'Please select an output file:',
       type: FileType.custom,
+      fileName: 'passwords.txt',
       allowedExtensions: ['txt'],
     );
-    if (result == null) return;
+    if (filePath == null) return;
 
-    _filePathController.text = result.files.single.path!;
+    // _filePathController.text = result.files.single.path!;
+    _filePathController.text = filePath;
     setState(() {});
   }
 
@@ -124,10 +131,6 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
             },
             labelText: 'Secret key',
           ),
-          const SizedBox(width: 10),
-          // Text(
-          //   'Key length in bytes: ${PasswordFileEncryptor.getBytesLength(_keyController.text)}',
-          // ),
           const SizedBox(height: 20),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             IconButton(
