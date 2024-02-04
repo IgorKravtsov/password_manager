@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_manager/features/theme/theme.dart';
+import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/shared/ui/full_width_card.dart';
 
 class ChangeColorCard extends StatelessWidget {
@@ -13,8 +14,7 @@ class ChangeColorCard extends StatelessWidget {
     return FullWidthCard(
       child: Column(
         children: [
-          const Row(
-            children: [Text('Color')],
+          Row(children: [Text(S.of(context).color)]
           ),
           const SizedBox(height: 20),
           BlocBuilder<ThemeCubit, ThemeState>(
@@ -44,19 +44,6 @@ class ChangeColorCard extends StatelessWidget {
                           alignment: Alignment.center,
                           width: 50,
                           height: 50,
-                          // decoration: BoxDecoration(
-                          //   shape: BoxShape.circle,
-                          //   border: Border.all(
-                          //     color: current.id ==
-                          //             context
-                          //                 .read<ThemeCubit>()
-                          //                 .state
-                          //                 .theme
-                          //                 .id
-                          //         ? Colors.black
-                          //         : Colors.transparent,
-                          //   ),
-                          // ),
                           child: current.id == state.theme.id
                               ? const Icon(Icons.check)
                               : null,

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:password_manager/entities/config/config.dart';
 import 'package:password_manager/entities/password_file/password_file.dart';
 import 'package:password_manager/features/decrypted_password_file/decrypted_password_file.dart';
+import 'package:password_manager/generated/l10n.dart';
 
 import 'package:password_manager/shared/lib/database.dart';
 import 'package:password_manager/shared/lib/location.dart';
@@ -27,81 +28,97 @@ class PasswordFilesDecryptedList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: _createCubit,
-      child:
-          BlocBuilder<PasswordFilesDecryptedCubit, DecryptedPasswordFilesState>(
-              builder: (context, state) {
-        if (state is PasswordFilesDecryptionFailed) {
-          return Padding(
-            padding: EdgeInsets.all(MediaQuery.of(context).size.height / 6),
-            child: UICard(
-              child: Column(
-                children: [
-                  Text(
-                    '${state.message}.\n\nMaybe something with path to one of the files or secret key. Please try again.',
-                    style: const TextStyle().copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+      child: BlocListener<ConfigurationFileBloc, ConfigurationFileState>(
+        listener: (context, state) {
+          if (state is ConfigurationFileLoaded) {
+            context
+                .read<PasswordFilesDecryptedCubit>()
+                .decryptPasswordFiles(state.configs);
+          }
+        },
+        child: BlocBuilder<PasswordFilesDecryptedCubit,
+            DecryptedPasswordFilesState>(builder: (context, state) {
+          if (state is PasswordFilesDecryptionFailed) {
+            return Padding(
+              padding: EdgeInsets.all(MediaQuery.of(context).size.height / 6),
+              child: UICard(
+                child: Column(
+                  children: [
+                    Text(
+                      state.message,
+                      style: const TextStyle().copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 40),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.go(Location.files);
-                    },
-                    child: const Text('Look configuration'),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text('OR'),
-                  const SizedBox(height: 10),
-                  FilledButton(
-                    onPressed: () {
-                      context
-                          .read<PasswordFilesDecryptedCubit>()
-                          .decryptPasswordFiles(context
-                              .read<ConfigurationFileBloc>()
-                              .state
-                              .configs);
-                    },
-                    child: const Text('Retry'),
-                  ),
-                ],
+                    Text(
+                      S.of(context).maybeSomethingWithPathToOneOfTheFilesOr,
+                      style: const TextStyle().copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.go(Location.files);
+                      },
+                      child: Text(S.of(context).lookConfiguration),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(S.of(context).or.toUpperCase()),
+                    const SizedBox(height: 10),
+                    FilledButton(
+                      onPressed: () {
+                        context
+                            .read<PasswordFilesDecryptedCubit>()
+                            .decryptPasswordFiles(context
+                                .read<ConfigurationFileBloc>()
+                                .state
+                                .configs);
+                      },
+                      child: Text(S.of(context).retry),
+                    ),
+                  ],
+                ),
               ),
+            );
+          }
+
+          if (state.decryptedFiles.isEmpty) {
+            return _buildEmptyState(context);
+          }
+
+          final selectedFileIndex = state.decryptedFiles
+              .indexOf(state.selectedFile ?? state.decryptedFiles[0]);
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              children: [
+                PasswordFilesTabs(
+                  selectedFileIndex: selectedFileIndex,
+                  decryptedFiles: state.decryptedFiles,
+                ),
+                const SizedBox(height: 20),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SearchSegments(),
+                    Spacer(),
+                    ExportDecryptedFileButton(),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                PasswordFileEditableSegments(
+                  state.selectedFile ?? state.decryptedFiles[0],
+                ),
+              ],
             ),
           );
-        }
-
-        if (state.decryptedFiles.isEmpty) {
-          return _buildEmptyState(context);
-        }
-
-        final selectedFileIndex = state.decryptedFiles
-            .indexOf(state.selectedFile ?? state.decryptedFiles[0]);
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            children: [
-              PasswordFilesTabs(
-                selectedFileIndex: selectedFileIndex,
-                decryptedFiles: state.decryptedFiles,
-              ),
-              const SizedBox(height: 20),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SearchSegments(),
-                  Spacer(),
-                  ExportDecryptedFileButton(),
-                ],
-              ),
-              const SizedBox(height: 20),
-              PasswordFileEditableSegments(
-                state.selectedFile ?? state.decryptedFiles[0],
-              ),
-            ],
-          ),
-        );
-      }),
+        }),
+      ),
     );
   }
 
@@ -112,7 +129,7 @@ class PasswordFilesDecryptedList extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('No files selected.'),
+            Text(S.of(context).noFilesSelected),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
@@ -121,7 +138,7 @@ class PasswordFilesDecryptedList extends StatelessWidget {
                     .decryptPasswordFiles(
                         context.read<ConfigurationFileBloc>().state.configs);
               },
-              child: const Text('Retry'),
+              child: Text(S.of(context).retry),
             ),
           ],
         ),

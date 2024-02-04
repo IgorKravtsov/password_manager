@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:password_manager/generated/l10n.dart';
 
 import 'package:password_manager/shared/lib/location.dart';
 
@@ -32,7 +33,7 @@ class MainBottomNavigationBar extends StatelessWidget {
             color: theme.colorScheme.primary,
           ),
           icon: const Icon(Icons.folder),
-          label: 'Password Files',
+          label: S.of(context).secureData,
         ),
         BottomNavigationBarItem(
           activeIcon: Icon(
@@ -40,7 +41,7 @@ class MainBottomNavigationBar extends StatelessWidget {
             color: theme.colorScheme.primary,
           ),
           icon: const Icon(Icons.list_alt),
-          label: 'Password files list',
+          label: S.of(context).passwordFilesList,
         ),
         BottomNavigationBarItem(
           activeIcon: Icon(
@@ -48,7 +49,7 @@ class MainBottomNavigationBar extends StatelessWidget {
             color: theme.colorScheme.primary,
           ),
           icon: const Icon(Icons.settings),
-          label: 'Settings',
+          label: S.of(context).settings,
         ),
       ],
     );

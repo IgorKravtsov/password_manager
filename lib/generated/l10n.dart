@@ -169,6 +169,356 @@ class S {
       args: [],
     );
   }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Configuration`
+  String get configuration {
+    return Intl.message(
+      'Configuration',
+      name: 'configuration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Secure data`
+  String get secureData {
+    return Intl.message(
+      'Secure data',
+      name: 'secureData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password files list`
+  String get passwordFilesList {
+    return Intl.message(
+      'Password files list',
+      name: 'passwordFilesList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seems like you don\'t have password files selected.`
+  String get seemsLikeYouDontHavePasswordFilesSelected {
+    return Intl.message(
+      'Seems like you don\\\'t have password files selected.',
+      name: 'seemsLikeYouDontHavePasswordFilesSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Look configuration`
+  String get lookConfiguration {
+    return Intl.message(
+      'Look configuration',
+      name: 'lookConfiguration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get retry {
+    return Intl.message(
+      'Retry',
+      name: 'retry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No files selected.`
+  String get noFilesSelected {
+    return Intl.message(
+      'No files selected.',
+      name: 'noFilesSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maybe something with path to one of the files or secret key. Please try again.`
+  String get maybeSomethingWithPathToOneOfTheFilesOr {
+    return Intl.message(
+      'Maybe something with path to one of the files or secret key. Please try again.',
+      name: 'maybeSomethingWithPathToOneOfTheFilesOr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password files configuration`
+  String get passwordFilesConfiguration {
+    return Intl.message(
+      'Password files configuration',
+      name: 'passwordFilesConfiguration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select an output file:`
+  String get pleaseSelectAnOutputFile {
+    return Intl.message(
+      'Please select an output file:',
+      name: 'pleaseSelectAnOutputFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Path to encrypted or empty file`
+  String get pathToEncryptedOrEmptyFile {
+    return Intl.message(
+      'Path to encrypted or empty file',
+      name: 'pathToEncryptedOrEmptyFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select file`
+  String get selectFile {
+    return Intl.message(
+      'Select file',
+      name: 'selectFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate random 32-bytes key`
+  String get generateRandom32bytesKey {
+    return Intl.message(
+      'Generate random 32-bytes key',
+      name: 'generateRandom32bytesKey',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Secret key`
+  String get secretKey {
+    return Intl.message(
+      'Secret key',
+      name: 'secretKey',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this file?`
+  String get areYouSureYouWantToDeleteThisFile {
+    return Intl.message(
+      'Are you sure you want to delete this file?',
+      name: 'areYouSureYouWantToDeleteThisFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Configuration file (.json)`
+  String get configurationFileJson {
+    return Intl.message(
+      'Configuration file (.json)',
+      name: 'configurationFileJson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Color`
+  String get color {
+    return Intl.message(
+      'Color',
+      name: 'color',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark mode`
+  String get darkMode {
+    return Intl.message(
+      'Dark mode',
+      name: 'darkMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `On`
+  String get on {
+    return Intl.message(
+      'On',
+      name: 'on',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Off`
+  String get off {
+    return Intl.message(
+      'Off',
+      name: 'off',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export decrypted .txt file`
+  String get exportDecryptedTxtFile {
+    return Intl.message(
+      'Export decrypted .txt file',
+      name: 'exportDecryptedTxtFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No segments found`
+  String get noSegmentsFound {
+    return Intl.message(
+      'No segments found',
+      name: 'noSegmentsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add it!`
+  String get addIt {
+    return Intl.message(
+      'Add it!',
+      name: 'addIt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this item?`
+  String get areYouSureYouWantToDeleteThisItem {
+    return Intl.message(
+      'Are you sure you want to delete this item?',
+      name: 'areYouSureYouWantToDeleteThisItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Revert`
+  String get revert {
+    return Intl.message(
+      'Revert',
+      name: 'revert',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a content`
+  String get pleaseEnterAContent {
+    return Intl.message(
+      'Please enter a content',
+      name: 'pleaseEnterAContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Content`
+  String get content {
+    return Intl.message(
+      'Content',
+      name: 'content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a title`
+  String get pleaseEnterATitle {
+    return Intl.message(
+      'Please enter a title',
+      name: 'pleaseEnterATitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Title`
+  String get title {
+    return Intl.message(
+      'Title',
+      name: 'title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

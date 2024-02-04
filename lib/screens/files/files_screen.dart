@@ -19,7 +19,6 @@ class FilesScreen extends StatelessWidget {
 
   void _handleSaveFile(
       ConfigModel config, int index, BuildContext context) async {
-    final completer = Completer<void>();
     final configurationFileBloc = context.read<ConfigurationFileBloc>();
 
     if (configurationFileBloc.state is! ConfigurationFileLoaded) {
@@ -31,9 +30,7 @@ class FilesScreen extends StatelessWidget {
           pathToConfigFile: configState.path,
           config: config,
           index: index,
-          completer: completer,
         ));
-    await completer.future;
     configurationFileBloc.add(ConfigurationFileReload());
   }
 
@@ -43,7 +40,6 @@ class FilesScreen extends StatelessWidget {
     BuildContext context,
   ) async {
     final configurationFileBloc = context.read<ConfigurationFileBloc>();
-    final completer = Completer<void>();
 
     if (configurationFileBloc.state is! ConfigurationFileLoaded) {
       return;
@@ -52,11 +48,19 @@ class FilesScreen extends StatelessWidget {
     context.read<PasswordFilesBloc>().add(PasswordFilesRemove(
           index: index,
           pathToConfigFile: configState.path,
-          completer: completer,
         ));
 
-    await completer.future;
     configurationFileBloc.add(ConfigurationFileReload());
+  }
+
+  PasswordFilesBloc _createBlocProvider(BuildContext context) {
+    final state = context.read<ConfigurationFileBloc>().state;
+    final bloc =
+        PasswordFilesBloc(configFileReader: const ConfigurationFileReader());
+    if (state is ConfigurationFileLoaded) {
+      bloc.add(PasswordFilesLoad(state.configs));
+    }
+    return bloc;
   }
 
   @override
@@ -68,7 +72,7 @@ class FilesScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
           child: Column(
             children: [
-              const PageTitle(text: 'Password files configuration'),
+              PageTitle(text: S.of(context).passwordFilesConfiguration),
               BlocConsumer<PasswordFilesBloc, PasswordFilesState>(
                 listener: (context, state) {
                   if (state is PasswordFilesError) {
@@ -108,15 +112,7 @@ class FilesScreen extends StatelessWidget {
     );
   }
 
-  PasswordFilesBloc _createBlocProvider(BuildContext context) {
-    final state = context.read<ConfigurationFileBloc>().state;
-    final bloc =
-        PasswordFilesBloc(configFileReader: const ConfigurationFileReader());
-    if (state is ConfigurationFileLoaded) {
-      bloc.add(PasswordFilesLoad(state.configs));
-    }
-    return bloc;
-  }
+
 
   Center _buildErrorElements(BuildContext context) {
     return Center(

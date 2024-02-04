@@ -22,27 +22,83 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "add": MessageLookupByLibrary.simpleMessage("Добавить"),
+        "addIt": MessageLookupByLibrary.simpleMessage("Добавить!"),
+        "areYouSureYouWantToDeleteThisFile":
+            MessageLookupByLibrary.simpleMessage(
+                "Вы уверены, что хотите удалить этот файл?"),
+        "areYouSureYouWantToDeleteThisItem":
+            MessageLookupByLibrary.simpleMessage(
+                "Вы уверены, что хотите удалить этот элемент?"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
         "chooseDirectory":
-            MessageLookupByLibrary.simpleMessage("Choose directory"),
+            MessageLookupByLibrary.simpleMessage("Выберать папку"),
         "chooseDirectoryWhereToSaveConfigurationFile":
             MessageLookupByLibrary.simpleMessage(
-                "Choose directory where to save configuration file"),
+                "Выберите папку для сохранения файла конфигурации"),
         "chooseExistingConfigurationFile": MessageLookupByLibrary.simpleMessage(
-            "choose existing configuration file"),
+            "Выберите существующий файл конфигурации"),
         "chooseExistingFile":
-            MessageLookupByLibrary.simpleMessage("Choose existing file"),
-        "filePath": MessageLookupByLibrary.simpleMessage("File path"),
+            MessageLookupByLibrary.simpleMessage("Выбрать существующий файл"),
+        "color": MessageLookupByLibrary.simpleMessage("Цвет"),
+        "configuration": MessageLookupByLibrary.simpleMessage("Конфигурация"),
+        "configurationFileJson":
+            MessageLookupByLibrary.simpleMessage("Файл конфигурации .json"),
+        "content": MessageLookupByLibrary.simpleMessage("Содержимое"),
+        "darkMode": MessageLookupByLibrary.simpleMessage("Темный режим"),
+        "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
+        "exportDecryptedTxtFile": MessageLookupByLibrary.simpleMessage(
+            "Скачать расшифрованный .txt файл"),
+        "filePath": MessageLookupByLibrary.simpleMessage("Путь к файлу"),
+        "generateRandom32bytesKey": MessageLookupByLibrary.simpleMessage(
+            "Сгенерировать случайный 32-байтовый ключ"),
         "goToConfiguration":
-            MessageLookupByLibrary.simpleMessage("Go to configuration"),
-        "or": MessageLookupByLibrary.simpleMessage("or"),
+            MessageLookupByLibrary.simpleMessage("Перейти к конфигурации"),
+        "language": MessageLookupByLibrary.simpleMessage("Язык"),
+        "lookConfiguration":
+            MessageLookupByLibrary.simpleMessage("Посмотреть конфигурацию"),
+        "maybeSomethingWithPathToOneOfTheFilesOr":
+            MessageLookupByLibrary.simpleMessage(
+                "Возможно, что-то с путем к одному из файлов или секретным ключом. Пожалуйста проверьте"),
+        "noFilesSelected":
+            MessageLookupByLibrary.simpleMessage("Файлы не выбраны"),
+        "noSegmentsFound":
+            MessageLookupByLibrary.simpleMessage("Сегменты не найдены"),
+        "off": MessageLookupByLibrary.simpleMessage("Выкл"),
+        "on": MessageLookupByLibrary.simpleMessage("Вкл"),
+        "or": MessageLookupByLibrary.simpleMessage("или"),
+        "passwordFilesConfiguration": MessageLookupByLibrary.simpleMessage(
+            "Конфигурация файлов с паролями"),
         "passwordFilesEmptyText": MessageLookupByLibrary.simpleMessage(
-            "No files found. Press + to add one."),
-        "pleaseEnterAValidPath":
-            MessageLookupByLibrary.simpleMessage("Please enter a valid path"),
-        "save": MessageLookupByLibrary.simpleMessage("Save"),
+            "Парольные данные пусты. Нажмите на +, чтобы добавить данные"),
+        "passwordFilesList":
+            MessageLookupByLibrary.simpleMessage("Список файлов с паролями"),
+        "pathToEncryptedOrEmptyFile": MessageLookupByLibrary.simpleMessage(
+            "Путь к зашифрованному или пустому файлу"),
+        "pleaseEnterAContent": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, введите содержимое"),
+        "pleaseEnterATitle": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, введите заголовок"),
+        "pleaseEnterAValidPath": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, введите правильный путь"),
+        "pleaseSelectAnOutputFile": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, выберите файл для сохранения:"),
+        "retry": MessageLookupByLibrary.simpleMessage("Повторить"),
+        "revert":
+            MessageLookupByLibrary.simpleMessage("Вернуть к изначальному"),
+        "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
+        "search": MessageLookupByLibrary.simpleMessage("Поиск"),
+        "secretKey": MessageLookupByLibrary.simpleMessage("Секретный ключ"),
+        "secureData": MessageLookupByLibrary.simpleMessage("Секретные данные"),
+        "seemsLikeYouDontHavePasswordFilesSelected":
+            MessageLookupByLibrary.simpleMessage(
+                "Похоже, у вас нет выбранных файлов с паролями"),
+        "selectFile": MessageLookupByLibrary.simpleMessage("Выбрать файл"),
+        "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
         "someErrorOccuredPleaseGoToConfiguration":
             MessageLookupByLibrary.simpleMessage(
-                "Some error occured, please go to configuration"),
-        "theme": MessageLookupByLibrary.simpleMessage("Тема")
+                "Произошла ошибка. Пожалуйста, перейдите к конфигурации"),
+        "theme": MessageLookupByLibrary.simpleMessage("Тема"),
+        "title": MessageLookupByLibrary.simpleMessage("Заголовок")
       };
 }

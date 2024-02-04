@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:password_manager/features/theme/theme.dart';
+import 'package:password_manager/generated/l10n.dart';
 
 import 'package:password_manager/shared/lib/location.dart';
 import 'package:password_manager/shared/ui/page_title.dart';
@@ -26,8 +27,7 @@ class ThemeScreen extends StatelessWidget {
               ),
             ]),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            const Row(children: [
-              PageTitle(text: 'Theme'),
+            Row(children: [PageTitle(text: S.of(context).theme)
             ]),
             const SwitchThemeModeCard(),
             const SizedBox(height: 20),

@@ -24,19 +24,21 @@ class PasswordFilesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return configs.isEmpty
         ? _buildEmptyState(context)
-        : SingleChildScrollView(
-            child: Column(
-              children: [
-              for (var i = 0; i < configs.length; i++)
-                PasswordFileItem(
-                  key: ValueKey(configs[i].id),
-                  index: i,
-                  encryptor: encryptor,
-                  config: configs[i],
-                  onDelete: onDeleteFile,
-                  onSave: onSaveFile,
-                ),
-            ],
+        : Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  for (var i = 0; i < configs.length; i++)
+                    PasswordFileItem(
+                      key: ValueKey(configs[i].id),
+                      index: i,
+                      encryptor: encryptor,
+                      config: configs[i],
+                      onDelete: onDeleteFile,
+                      onSave: onSaveFile,
+                    ),
+                ],
+              ),
             ),
           );
 

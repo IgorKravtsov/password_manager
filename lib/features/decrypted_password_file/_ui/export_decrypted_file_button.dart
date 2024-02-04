@@ -1,8 +1,11 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:password_manager/features/decrypted_password_file/_vm/cubit/password_files_decrypted_cubit.dart';
+
+import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/shared/ui/layout.dart';
+
+import '../_vm/cubit/password_files_decrypted_cubit.dart';
 
 class ExportDecryptedFileButton extends StatelessWidget {
   const ExportDecryptedFileButton({
@@ -33,7 +36,7 @@ class ExportDecryptedFileButton extends StatelessWidget {
         minHeight: 50,
       ),
       child: IconButton(
-        tooltip: 'Export decrypted .txt file',
+        tooltip: S.of(context).exportDecryptedTxtFile,
         onPressed: () => _exportFile(context),
         icon: const Icon(Icons.download),
       ),
@@ -47,7 +50,7 @@ class ExportDecryptedFileButton extends StatelessWidget {
       ),
       child: FilledButton(
         onPressed: () => _exportFile(context),
-        child: const Text('Export decrypted .txt file'),
+        child: Text(S.of(context).exportDecryptedTxtFile),
       ),
     );
   }

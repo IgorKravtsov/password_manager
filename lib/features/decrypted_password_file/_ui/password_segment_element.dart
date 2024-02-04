@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:password_manager/entities/password_file/password_file.dart';
+import 'package:password_manager/generated/l10n.dart';
 
 class PasswordFileSegmentElement extends StatefulWidget {
   final PasswordFileSegmentModel segment;
@@ -66,13 +67,13 @@ class _PasswordFileSegmentElementState
           children: [
             TextFormField(
               controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: S.of(context).title,
+                border: const OutlineInputBorder(),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter a title';
+                  return S.of(context).pleaseEnterATitle;
                 }
                 return null;
               },
@@ -81,14 +82,14 @@ class _PasswordFileSegmentElementState
             TextFormField(
               controller: _contentController,
               maxLines: 10,
-              decoration: const InputDecoration(
-                labelText: 'Content',
+              decoration: InputDecoration(
+                labelText: S.of(context).content,
                 alignLabelWithHint: true,
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter a content';
+                  return S.of(context).pleaseEnterAContent;
                 }
                 return null;
               },
@@ -109,23 +110,36 @@ class _PasswordFileSegmentElementState
                   },
                   disabled: widget.segment.title == '' &&
                       widget.segment.content == '',
-                  child: const Text('Revert'),
+                  child: Text(S.of(context).revert),
                 ),
                 SegmentButton(
                   onPressed: _handleSave,
-                  child: const Text('Save'),
+                  child: Text(S.of(context).save),
                 ),
               ],
             ),
             const SizedBox(height: 30),
-            SegmentButton(
-              disabled: widget.index == null,
-              onPressed: () {
-                widget.onDelete?.call(context: context, index: widget.index!);
-              },
-              child: Icon(Icons.delete,
-                  color:
-                      widget.index == null ? Colors.transparent : Colors.red),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SegmentButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(S.of(context).cancel),
+                ),
+                SegmentButton(
+                  disabled: widget.index == null,
+                  onPressed: () {
+                    widget.onDelete
+                        ?.call(context: context, index: widget.index!);
+                  },
+                  child: Icon(Icons.delete,
+                      color: widget.index == null
+                          ? Colors.transparent
+                          : Colors.red),
+                ),
+              ],
             ),
           ],
         ),

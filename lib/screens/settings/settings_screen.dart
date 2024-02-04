@@ -22,7 +22,7 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Row(children: [PageTitle(text: 'Settings')]),
+              Row(children: [PageTitle(text: S.of(context).settings)]),
               const SizedBox(height: 50),
               FullWidthCard(
                 onTap: () => context.go(Location.configuration),
@@ -31,7 +31,7 @@ class SettingsScreen extends StatelessWidget {
                     const Icon(Icons.settings),
                     const SizedBox(width: 20),
                     Text(
-                      'Configuration',
+                      S.of(context).configuration,
                       style: const TextStyle().copyWith(fontSize: 22),
                     ),
                   ],
@@ -77,7 +77,7 @@ class SettingsScreen extends StatelessWidget {
                         const Icon(Icons.translate),
                         const SizedBox(width: 20),
                         Text(
-                          'Language',
+                          S.of(context).language,
                           style: const TextStyle().copyWith(fontSize: 22),
                         ),
                         const Spacer(),

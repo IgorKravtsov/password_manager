@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:password_manager/entities/password_file/password_file.dart';
+import 'package:password_manager/generated/l10n.dart';
 
 import '../_vm/cubit/password_files_decrypted_cubit.dart';
 import 'password_segment_element.dart';
@@ -124,7 +124,7 @@ class _PasswordFileEditableSegmentsState
           width: 75,
           height: 75,
           child: FloatingActionButton(
-            tooltip: 'Add',
+            tooltip: S.of(context).add,
             onPressed: () {
               _buildBottomSheet(
                   context,
@@ -145,7 +145,7 @@ class _PasswordFileEditableSegmentsState
           child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('No segments found'),
+          Text(S.of(context).noSegmentsFound),
           const SizedBox(height: 20),
           FilledButton(
               onPressed: () {
@@ -157,8 +157,7 @@ class _PasswordFileEditableSegmentsState
                     ),
                     null);
               },
-              child: const Text(
-                'Add it!',
+              child: Text(S.of(context).addIt
               )),
         ],
       ));
@@ -202,11 +201,11 @@ class _PasswordFileEditableSegmentsState
         return BlocProvider.value(
           value: context.watch<PasswordFilesDecryptedCubit>(),
           child: AlertDialog(
-            title: const Text('Are you sure you want to delete this item?'),
+            title: Text(S.of(context).areYouSureYouWantToDeleteThisItem),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancel'),
+                child: Text(S.of(context).cancel),
               ),
               TextButton(
                 onPressed: () {
@@ -218,7 +217,7 @@ class _PasswordFileEditableSegmentsState
                     Theme.of(context).colorScheme.error,
                   ),
                 ),
-                child: const Text('Delete'),
+                child: Text(S.of(context).delete),
               ),
             ],
           ),

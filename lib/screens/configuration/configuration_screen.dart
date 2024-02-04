@@ -13,28 +13,32 @@ class ConfigurationScreen extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(40.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(children: [
-              UIBackButton(
-                onTap: () => Navigator.of(context).pop(),
-              ),
-            ]),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            const PageTitle(text: 'Configuration file (.json)'),
-            const SizedBox(height: 50),
-            Text(
-              S.of(context).chooseDirectoryWhereToSaveConfigurationFile,
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(children: [
+                  UIBackButton(
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                ]),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                PageTitle(text: S.of(context).configurationFileJson),
+                const SizedBox(height: 50),
+                Text(
+                  S.of(context).chooseDirectoryWhereToSaveConfigurationFile,
+                ),
+                Text(
+                  S.of(context).or,
+                ),
+                Text(
+                  S.of(context).chooseExistingConfigurationFile,
+                ),
+                const ConfigurationForm(),
+              ],
             ),
-            Text(
-              S.of(context).or,
-            ),
-            Text(
-              S.of(context).chooseExistingConfigurationFile,
-            ),
-            const ConfigurationForm(),
-          ],
+          ),
         ),
       ),
     );

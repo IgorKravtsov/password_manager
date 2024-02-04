@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:password_manager/generated/l10n.dart';
 
 import '../_vm/cubit/password_files_decrypted_cubit.dart';
 
@@ -41,11 +42,7 @@ class _SearchSegmentsState extends State<SearchSegments> {
 
     _searchTimer?.cancel();
     _searchTimer = Timer(Duration(milliseconds: widget.debounceDuration), () {
-      // log('searching for $_searchText');
       context.read<PasswordFilesDecryptedCubit>().saveSearch(_searchText);
-      // if (_searchText == text) {
-      //   // TODO: add to cubit
-      // }
     });
   }
 
@@ -62,7 +59,7 @@ class _SearchSegmentsState extends State<SearchSegments> {
       child: TextField(
         controller: _searchController,
         decoration: InputDecoration(
-            labelText: 'Search',
+            labelText: S.of(context).search,
             prefixIcon: const Icon(Icons.search),
             suffixIcon: IconButton(
                 onPressed: _clearSearch, icon: const Icon(Icons.clear)),

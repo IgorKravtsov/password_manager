@@ -34,20 +34,15 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
   final _filePathController = TextEditingController();
   final _keyController = TextEditingController();
 
-  void _handleSelectFile() async {
-    // FilePickerResult? result = await FilePicker.platform.pickFiles(
-    //   type: FileType.custom,
-    //   allowedExtensions: ['txt'],
-    // );
+  void _handleSelectFile(BuildContext context) async {
     final filePath = await FilePicker.platform.saveFile(
-      dialogTitle: 'Please select an output file:',
+      dialogTitle: S.of(context).pleaseSelectAnOutputFile,
       type: FileType.custom,
       fileName: 'passwords.txt',
       allowedExtensions: ['txt'],
     );
     if (filePath == null) return;
 
-    // _filePathController.text = result.files.single.path!;
     _filePathController.text = filePath;
     setState(() {});
   }
@@ -99,16 +94,16 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
                 child: TextField(
                   controller: _filePathController,
                   onChanged: (value) => setState(() {}),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Path to encrypted or empty file',
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: S.of(context).pathToEncryptedOrEmptyFile,
                   ),
                 ),
               ),
               const SizedBox(width: 10),
               OutlinedButton(
-                onPressed: _handleSelectFile,
-                child: const Text('Select file'),
+                onPressed: () => _handleSelectFile(context),
+                child: Text(S.of(context).selectFile),
               ),
             ],
           ),
@@ -121,7 +116,7 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
                 setState(() {});
               },
               icon: const Icon(Icons.refresh),
-              tooltip: 'Generate random 32-bytes key',
+              tooltip: S.of(context).generateRandom32bytesKey,
             ),
             onChanged: (value) {
               if (!widget.encryptor.isValidKey(value)) {
@@ -129,7 +124,7 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
               }
               setState(() {});
             },
-            labelText: 'Secret key',
+            labelText: S.of(context).secretKey,
           ),
           const SizedBox(height: 20),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -162,11 +157,11 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
         return BlocProvider.value(
           value: context.watch<PasswordFilesBloc>(),
           child: AlertDialog(
-            title: const Text('Are you sure you want to delete this file?'),
+            title: Text(S.of(context).areYouSureYouWantToDeleteThisFile),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancel'),
+                child: Text(S.of(context).cancel),
               ),
               TextButton(
                 onPressed: () {
@@ -178,7 +173,7 @@ class _PasswordFileItemState extends State<PasswordFileItem> {
                     Theme.of(context).colorScheme.error,
                   ),
                 ),
-                child: const Text('Delete'),
+                child: Text(S.of(context).delete),
               ),
             ],
           ),
