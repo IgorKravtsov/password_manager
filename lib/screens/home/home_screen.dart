@@ -41,11 +41,16 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            S.of(context).seemsLikeYouDontHavePasswordFilesSelected,
-            style: TextStyle(
-              fontSize: math.min(MediaQuery.of(context).size.width * 0.035, 32),
-              fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 60),
+            child: Text(
+              S.of(context).seemsLikeYouDontHavePasswordFilesSelected,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize:
+                    math.min(MediaQuery.of(context).size.width * 0.035, 32),
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           const SizedBox(height: 80),
