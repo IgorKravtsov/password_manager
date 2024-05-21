@@ -14,17 +14,12 @@ class MainBottomNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (index) {
-        switch (index) {
-          case 0:
-            context.go(Location.home);
-            break;
-          case 1:
-            context.go(Location.files);
-            break;
-          case 2:
-            context.go(Location.settings);
-            break;
-        }
+        context.go({
+              0: Location.home,
+              1: Location.files,
+              2: Location.settings,
+            }[index] ??
+            Location.home);
       },
       items: [
         BottomNavigationBarItem(
@@ -37,7 +32,7 @@ class MainBottomNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           activeIcon: Icon(
-            Icons.lock,
+            Icons.list_alt,
             color: theme.colorScheme.primary,
           ),
           icon: const Icon(Icons.list_alt),
@@ -45,7 +40,7 @@ class MainBottomNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           activeIcon: Icon(
-            Icons.settings_applications,
+            Icons.settings,
             color: theme.colorScheme.primary,
           ),
           icon: const Icon(Icons.settings),
