@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:get_it/get_it.dart';
+
+import 'package:password_manager/generated/l10n.dart';
 
 import 'package:password_manager/app/router.dart';
 import 'package:password_manager/entities/config/config.dart';
 import 'package:password_manager/features/locale/locale.dart';
 import 'package:password_manager/features/theme/theme.dart';
-import 'package:password_manager/generated/l10n.dart';
-import 'package:password_manager/shared/lib/configuration_file_reader.dart';
-import 'package:password_manager/shared/lib/database.dart';
+import 'package:password_manager/shared/lib/dependencies/inherited_dependencies.dart';
 
 class PasswordManagerApp extends StatelessWidget {
   const PasswordManagerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final deps = context.deps;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => ThemeCubit(database: GetIt.I<IDatabase>())..init(),
+          create: (_) => ThemeCubit(database: deps.database)..init(),
         ),
         BlocProvider(
           create: (_) => ConfigurationFileBloc(
-            configFileReader: GetIt.I<IConfigurationFileReader>(),
-            database: GetIt.I<IDatabase>(),
+            configFileReader: deps.configurationFileReader,
+            database: deps.database,
           )..add(
               ConfigurationFileInit(),
             ),
         ),
         BlocProvider(
           create: (_) => LocaleCubit(
-            database: GetIt.I<IDatabase>(),
+            database: deps.database,
           )..init(),
         ),
       ],

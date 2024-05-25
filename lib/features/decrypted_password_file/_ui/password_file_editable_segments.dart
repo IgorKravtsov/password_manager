@@ -213,7 +213,7 @@ class _PasswordFileEditableSegmentsState
                   Navigator.of(context).pop();
                 },
                 style: const ButtonStyle().copyWith(
-                  foregroundColor: MaterialStateProperty.all(
+                  foregroundColor: WidgetStateProperty.all(
                     Theme.of(context).colorScheme.error,
                   ),
                 ),

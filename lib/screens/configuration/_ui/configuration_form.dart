@@ -21,11 +21,11 @@ class _ConfigurationFormState extends State<ConfigurationForm> {
   @override
   void initState() {
     final state = context.read<ConfigurationFileBloc>().state;
-
+    print('========STATE:  $state======'); // ignore: avoid_print
     if (state is ConfigurationFileLoaded) {
+      print('state.path: ${state.path}'); // ignore: avoid_print
       _filePathController.text = state.path;
     }
-
     super.initState();
   }
 
@@ -81,8 +81,9 @@ class _ConfigurationFormState extends State<ConfigurationForm> {
                         : context.go(Location.home);
                   }
                   if (state is ConfigurationFileError) {
-                    ScaffoldMessenger.of(context).clearSnackBars();
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    final scaffold = ScaffoldMessenger.of(context);
+                    scaffold.clearSnackBars();
+                    scaffold.showSnackBar(
                       SnackBar(
                         content: Text(state.message),
                       ),

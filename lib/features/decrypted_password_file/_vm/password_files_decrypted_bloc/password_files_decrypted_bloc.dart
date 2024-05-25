@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:password_manager/entities/password_file/_vm/models/password_file_model.dart';
 import 'package:password_manager/entities/config/config.dart';
 import 'package:password_manager/entities/password_file/password_file.dart';
 

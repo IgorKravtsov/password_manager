@@ -33,6 +33,7 @@ class ConfigurationFileBloc
   ) async {
     try {
       final path = await _database.readPathToConfigFile();
+      print('path: $path');
       if (path == null) {
         emit(const ConfigurationFileError('No configuration file selected'));
         return;

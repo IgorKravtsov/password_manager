@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:password_manager/entities/config/config.dart';
-import 'package:password_manager/entities/password_file/password_file.dart';
 import 'package:password_manager/features/decrypted_password_file/decrypted_password_file.dart';
 import 'package:password_manager/generated/l10n.dart';
 
-import 'package:password_manager/shared/lib/database.dart';
+import 'package:password_manager/shared/lib/dependencies/inherited_dependencies.dart';
 import 'package:password_manager/shared/lib/location.dart';
 import 'package:password_manager/shared/ui/ui_card.dart';
 
@@ -17,10 +15,11 @@ class PasswordFilesDecryptedList extends StatelessWidget {
 
   PasswordFilesDecryptedCubit _createCubit(BuildContext context) {
     final configurationFileState = context.read<ConfigurationFileBloc>().state;
+    final deps = context.deps;
     return PasswordFilesDecryptedCubit(
-      encrypter: GetIt.I<IPasswordFileEncrypter>(),
-      decryptedPasswordFileSaver: GetIt.I<IDecryptedPasswordFileSaver>(),
-      database: GetIt.I<IDatabase>(),
+      encrypter: deps.passwordFileEncrypter,
+      decryptedPasswordFileSaver: deps.decryptedPasswordFileSaver,
+      database: deps.database,
     )..decryptPasswordFiles(configurationFileState.configs);
   }
 

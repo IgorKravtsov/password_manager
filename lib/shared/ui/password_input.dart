@@ -52,7 +52,7 @@ class _PasswrodInputState extends State<PasswrodInput> {
     );
   }
 
-  OutlineInputBorder _buildOutlineBorder(BuildContext context, {Color? color}) {
+  OutlineInputBorder _buildOutlineBorder(BuildContext context) {
     return const OutlineInputBorder();
   }
 }

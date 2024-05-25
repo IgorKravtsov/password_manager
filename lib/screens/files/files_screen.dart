@@ -1,16 +1,14 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:password_manager/entities/config/config.dart';
 import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/screens/files/_ui/password_files_list.dart';
 import 'package:password_manager/screens/files/_vm/bloc/password_files_bloc.dart';
 import 'package:password_manager/shared/lib/configuration_file_reader.dart';
+import 'package:password_manager/shared/lib/dependencies/inherited_dependencies.dart';
 import 'package:password_manager/shared/lib/location.dart';
-import 'package:password_manager/shared/lib/content_encrypter.dart';
 import 'package:password_manager/shared/ui/page_title.dart';
 import 'package:password_manager/widgets/main_bottom_navigation_bar/main_bottom_navigation_bar.dart';
 
@@ -92,7 +90,7 @@ class FilesScreen extends StatelessWidget {
                     configs: state.configs,
                     onSaveFile: _handleSaveFile,
                     onDeleteFile: _handleDeleteFile,
-                    encryptor: GetIt.I<IContentEncrypter>(),
+                    encryptor: context.deps.contentEncrypter,
                   );
                 },
               ),

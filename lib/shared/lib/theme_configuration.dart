@@ -20,13 +20,13 @@ class Theme {
 
     return ThemeData.from(
       colorScheme: scheme.copyWith(
-          background: Color.alphaBlend(
-              scheme.primary.withOpacity(0.05), scheme.background)),
+          surface: Color.alphaBlend(
+              scheme.primary.withOpacity(0.05), scheme.surface)),
       useMaterial3: true,
     ).copyWith(
-      highlightColor: scheme.surfaceVariant.withOpacity(0.75),
-      hoverColor: scheme.surfaceVariant.withOpacity(0.5),
-      splashColor: scheme.surfaceVariant,
+      highlightColor: scheme.surfaceContainerHighest.withOpacity(0.75),
+      hoverColor: scheme.surfaceContainerHighest.withOpacity(0.5),
+      splashColor: scheme.surfaceContainerHighest,
     );
   }
 

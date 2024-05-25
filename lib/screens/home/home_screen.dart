@@ -18,7 +18,8 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<ConfigurationFileBloc, ConfigurationFileState>(
           builder: (context, state) {
-            if (state is ConfigurationFileInitError) {
+          if (state is ConfigurationFileInitError ||
+              state is ConfigurationFileError) {
               return _buildEmptyState(context);
             }
 
@@ -64,7 +65,8 @@ class HomeScreen extends StatelessWidget {
                       math.min(MediaQuery.of(context).size.width * 0.04, 32),
                   fontWeight: FontWeight.bold,
                 ),
-              )),
+            ),
+          ),
         ],
       ),
     );

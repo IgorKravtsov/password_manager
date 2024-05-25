@@ -1,18 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:password_manager/entities/password_file/password_file.dart';
-import 'package:password_manager/shared/lib/content_encrypter.dart';
 
-//TODO: finish with this implementation
-
-abstract interface class IDependencies {
-  /// The state from the closest instance of this class.
-  factory IDependencies.of(BuildContext context) =>
-      InheritedDependencies.of(context);
-
-  abstract final IContentEncrypter contentEncrypter;
-  abstract final IPasswordFileEncrypter passwordFileEncrypter;
-  abstract final IDecryptedPasswordFileSaver decryptedPasswordFileSaver;
-}
+import '_/dependencies.dart';
 
 /// {@template inherited_dependencies}
 /// InheritedDependencies widget.
@@ -25,12 +13,12 @@ class InheritedDependencies extends InheritedWidget {
     super.key,
   });
 
-  final IDependencies dependencies;
+  final Dependencies dependencies;
 
   /// The state from the closest instance of this class
   /// that encloses the given context, if any.
   /// e.g. `InheritedDependencies.maybeOf(context)`.
-  static IDependencies? maybeOf(BuildContext context) => (context
+  static Dependencies? maybeOf(BuildContext context) => (context
           .getElementForInheritedWidgetOfExactType<InheritedDependencies>()
           ?.widget as InheritedDependencies?)
       ?.dependencies;
@@ -44,9 +32,13 @@ class InheritedDependencies extends InheritedWidget {
   /// The state from the closest instance of this class
   /// that encloses the given context.
   /// e.g. `InheritedDependencies.of(context)`
-  static IDependencies of(BuildContext context) =>
+  static Dependencies of(BuildContext context) =>
       maybeOf(context) ?? _notFoundInheritedWidgetOfExactType();
 
   @override
   bool updateShouldNotify(InheritedDependencies oldWidget) => false;
+}
+
+extension InheritedDependenciesExtension on BuildContext {
+  Dependencies get deps => InheritedDependencies.of(this);
 }
