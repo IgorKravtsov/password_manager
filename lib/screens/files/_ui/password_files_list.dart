@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:password_manager/entities/config/config.dart';
 import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/screens/files/_ui/password_file_item.dart';
@@ -24,23 +25,36 @@ class PasswordFilesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return configs.isEmpty
         ? _buildEmptyState(context)
+        // : Expanded(
+        //     child: Column(
+        //       children: [
+        //         for (var i = 0; i < configs.length; i++)
+        // PasswordFileItem(
+        //   key: ValueKey(configs[i].id),
+        //   index: i,
+        //   encryptor: encryptor,
+        //   config: configs[i],
+        //   onDelete: onDeleteFile,
+        //   onSave: onSaveFile,
+        // ),
+        //       ],
+        //     ),
+        //   );
         : Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  for (var i = 0; i < configs.length; i++)
-                    PasswordFileItem(
-                      key: ValueKey(configs[i].id),
-                      index: i,
-                      encryptor: encryptor,
-                      config: configs[i],
-                      onDelete: onDeleteFile,
-                      onSave: onSaveFile,
-                    ),
-                ],
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const Divider(),
+              itemBuilder: (context, i) => PasswordFileItem(
+                key: ValueKey(configs[i].id),
+                index: i,
+                encryptor: encryptor,
+                config: configs[i],
+                onDelete: onDeleteFile,
+                onSave: onSaveFile,
               ),
+              itemCount: configs.length,
             ),
           );
+
 
   }
 

@@ -71,6 +71,16 @@ class PasswordFilesBloc extends Bloc<PasswordFilesEvent, PasswordFilesState> {
   ) async {
     try {
       final List<ConfigModel> configs = List.from(state.configs);
+      for (var i = 0; i < configs.length; i++) {
+        if (i == event.index) continue;
+        if (configs[i].pathToFile == event.config.pathToFile) {
+          emit(PasswordFilesError(
+            state.configs,
+            'File you are trying to save already exists in a list',
+          ));
+          return;
+        }
+      }
       // if (configs.map((e) => e.pathToFile).contains(event.config.pathToFile)) {
       //   emit(PasswordFilesError(
       //     state.configs,

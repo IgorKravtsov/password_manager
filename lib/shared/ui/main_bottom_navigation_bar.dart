@@ -5,14 +5,19 @@ import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/shared/lib/location.dart';
 
 class MainBottomNavigationBar extends StatelessWidget {
-  final int currentIndex;
-  const MainBottomNavigationBar({super.key, this.currentIndex = 0});
+  final String selectedRoute;
+  const MainBottomNavigationBar({super.key, required this.selectedRoute});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BottomNavigationBar(
-      currentIndex: currentIndex,
+      currentIndex: {
+            Location.home: 0,
+            Location.files: 1,
+            Location.settings: 2,
+          }[selectedRoute] ??
+          0,
       onTap: (index) {
         context.go({
               0: Location.home,

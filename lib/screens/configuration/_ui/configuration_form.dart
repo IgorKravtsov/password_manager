@@ -1,7 +1,7 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:file_picker/file_picker.dart';
 
 import 'package:password_manager/entities/config/config.dart';
 import 'package:password_manager/generated/l10n.dart';
@@ -63,14 +63,14 @@ class _ConfigurationFormState extends State<ConfigurationForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(40.0),
+      padding: const EdgeInsets.all(8.0),
       child: Form(
         key: _formKey,
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 50),
+              // const SizedBox(height: 50),
               BlocListener<ConfigurationFileBloc, ConfigurationFileState>(
                 listener: (context, state) {
                   if (state is ConfigurationFileLoaded) {

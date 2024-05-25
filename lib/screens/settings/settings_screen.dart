@@ -1,97 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:password_manager/features/locale/_vm/locale_changer.dart';
-import 'package:password_manager/features/locale/locale.dart';
+
 import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/shared/lib/location.dart';
-import 'package:password_manager/shared/ui/full_width_card.dart';
 import 'package:password_manager/shared/ui/page_title.dart';
-import 'package:password_manager/widgets/main_bottom_navigation_bar/main_bottom_navigation_bar.dart';
+import 'package:password_manager/shared/ui/screen_content.dart';
+import 'package:password_manager/widgets/app_layout.dart';
+
+import '_ui/configuration_card.dart';
+import '_ui/language_card.dart';
+import '_ui/theme_card.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          // padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.15),
-          padding: const EdgeInsets.all(100.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(children: [PageTitle(text: S.of(context).settings)]),
-              const SizedBox(height: 50),
-              FullWidthCard(
-                onTap: () => context.go(Location.configuration),
-                child: Row(
-                  children: [
-                    const Icon(Icons.settings),
-                    const SizedBox(width: 20),
-                    Text(
-                      S.of(context).configuration,
-                      style: const TextStyle().copyWith(fontSize: 22),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              FullWidthCard(
-                onTap: () => context.go(Location.theme),
-                child: Row(
-                  children: [
-                    const Icon(Icons.palette),
-                    const SizedBox(width: 20),
-                    Text(
-                      S.of(context).theme,
-                      style: const TextStyle().copyWith(fontSize: 22),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              BlocBuilder<LocaleCubit, Locale>(
-                builder: (context, locale) {
-                  final languageCode = locale.languageCode;
-                  String getLanguageName() {
-                    switch (languageCode) {
-                      case 'en':
-                        return 'English';
-                      case 'uk':
-                        return 'Українська';
-                      case 'ru':
-                        return 'Русский';
-                      default:
-                        return 'Unknown';
-                    }
-                  }
+    return const AppScaffold(
+      selectedRoute: Location.settings,
+      child: SettingsScreenContent(),
+    );
+  }
+}
 
-                  return FullWidthCard(
-                    onTap: () => context.read<LocaleCubit>().changeLocale(
-                          LocaleChanger.getNextCode(languageCode),
-                        ),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.translate),
-                        const SizedBox(width: 20),
-                        Text(
-                          S.of(context).language,
-                          style: const TextStyle().copyWith(fontSize: 22),
-                        ),
-                        const Spacer(),
-                        Text(getLanguageName()),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+class SettingsScreenContent extends StatelessWidget {
+  const SettingsScreenContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenContent(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PageTitle(text: S.of(context).settings),
+            const SizedBox(height: 50),
+            const ConfigurationCard(),
+            const SizedBox(height: 20),
+            const ThemeCard(),
+            const SizedBox(height: 20),
+            const LanguageCard(),
+          ],
         ),
       ),
-      bottomNavigationBar: const MainBottomNavigationBar(currentIndex: 2),
     );
   }
 }

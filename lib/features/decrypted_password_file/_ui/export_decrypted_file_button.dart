@@ -26,7 +26,8 @@ class ExportDecryptedFileButton extends StatelessWidget {
       if (type == Layout.tablet || type == Layout.phone) {
         return _buildMobile(context);
       }
-      return _buildDesktop(context);
+      // return _buildDesktop(context);
+      return _buildMobile(context);
     });
   }
 

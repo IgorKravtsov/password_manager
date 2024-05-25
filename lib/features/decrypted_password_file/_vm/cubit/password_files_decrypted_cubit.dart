@@ -123,17 +123,20 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
   Future<void> _saveToFile(PasswordFileModel passwordFile) async {
     try {
       final file = File(passwordFile.pathToFile);
-      final encryptedContent = await _passwordFileEncrypter.encryptSegments(
-        passwordFile.segments,
-        passwordFile.secretKey,
-      );
-      await file.writeAsString(encryptedContent);
+      String content = '';
+      if (passwordFile.segments.isNotEmpty) {
+        content = await _passwordFileEncrypter.encryptSegments(
+          passwordFile.segments,
+          passwordFile.secretKey,
+        );
+      }
+      await file.writeAsString(content);
 
       void saveCopy() {
         final date = DateFormat('yyyy-MM-dd').format(DateTime.now());
         final path = file.path.replaceFirst('.txt', '_$date.txt');
         final fileCopy = File('${path}_copy');
-        fileCopy.writeAsString(encryptedContent);
+        fileCopy.writeAsString(content);
       }
 
       saveCopy();

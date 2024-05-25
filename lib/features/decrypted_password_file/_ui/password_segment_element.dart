@@ -65,52 +65,71 @@ class _PasswordFileSegmentElementState
         key: _formKey,
         child: Column(
           children: [
-            TextFormField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                labelText: S.of(context).title,
-                border: const OutlineInputBorder(),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return S.of(context).pleaseEnterATitle;
-                }
-                return null;
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildTitleField(context),
+                const SizedBox(width: 10),
+                IconButton(
+                  onPressed: widget.index != null
+                      ? () => widget.onDelete
+                          ?.call(context: context, index: widget.index!)
+                      : null,
+                  icon: Icon(
+                    Icons.delete,
+                    color: widget.index != null ? Colors.red : Colors.grey,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
-            TextFormField(
-              controller: _contentController,
-              maxLines: 10,
-              decoration: InputDecoration(
-                labelText: S.of(context).content,
-                alignLabelWithHint: true,
-                border: const OutlineInputBorder(),
+            Stack(children: [
+              TextFormField(
+                controller: _contentController,
+                maxLines: 10,
+                decoration: InputDecoration(
+                    labelText: S.of(context).content,
+                    alignLabelWithHint: true,
+                    border: const OutlineInputBorder(),
+                    contentPadding: const EdgeInsets.only(
+                      right: 45,
+                      top: 20,
+                      bottom: 20,
+                      left: 20,
+                    )
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return S.of(context).pleaseEnterAContent;
+                  }
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return S.of(context).pleaseEnterAContent;
-                }
-                return null;
-              },
-            ),
+              _buildClearContent(),
+            ]),
             const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                // SegmentButton(
+                //   style: TextButton.styleFrom(
+                //     foregroundColor: Colors.red,
+                //   ),
+                //   onPressed: () {
+                //     setState(() {
+                //       _titleController.text = widget.segment.title;
+                //       _contentController.text = widget.segment.content;
+                //     });
+                //   },
+                //   disabled: widget.segment.title == '' &&
+                //       widget.segment.content == '',
+                //   child: Text(S.of(context).revert),
+                // ),
                 SegmentButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.red,
-                  ),
                   onPressed: () {
-                    setState(() {
-                      _titleController.text = widget.segment.title;
-                      _contentController.text = widget.segment.content;
-                    });
+                    Navigator.of(context).pop();
                   },
-                  disabled: widget.segment.title == '' &&
-                      widget.segment.content == '',
-                  child: Text(S.of(context).revert),
+                  child: Text(S.of(context).cancel),
                 ),
                 SegmentButton(
                   onPressed: _handleSave,
@@ -119,33 +138,89 @@ class _PasswordFileSegmentElementState
               ],
             ),
             const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SegmentButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(S.of(context).cancel),
-                ),
-                SegmentButton(
-                  disabled: widget.index == null,
-                  onPressed: () {
-                    widget.onDelete
-                        ?.call(context: context, index: widget.index!);
-                  },
-                  child: Icon(Icons.delete,
-                      color: widget.index == null
-                          ? Colors.transparent
-                          : Colors.red),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: [
+            //     SegmentButton(
+            //       onPressed: () {
+            //         Navigator.of(context).pop();
+            //       },
+            //       child: Text(S.of(context).cancel),
+            //     ),
+            //     // SegmentButton(
+            //     //   disabled: widget.index == null,
+            //     //   onPressed: () {
+            //     //     widget.onDelete
+            //     //         ?.call(context: context, index: widget.index!);
+            //     //   },
+            //     //   child: Icon(Icons.delete,
+            //     //       color: widget.index == null
+            //     //           ? Colors.transparent
+            //     //           : Colors.red),
+            //     // ),
+            //   ],
+            // ),
           ],
         ),
       ),
     );
   }
+
+  Expanded _buildTitleField(BuildContext context) {
+    return Expanded(
+      child: Stack(
+        children: [
+          TextFormField(
+            controller: _titleController,
+            decoration: InputDecoration(
+              labelText: S.of(context).title,
+              border: const OutlineInputBorder(),
+              contentPadding: const EdgeInsets.only(
+                right: 45,
+                top: 20,
+                bottom: 20,
+                left: 20,
+              ),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return S.of(context).pleaseEnterATitle;
+              }
+              return null;
+            },
+          ),
+          _buildClearTitle(),
+        ],
+      ),
+    );
+  }
+
+  Positioned _buildClearTitle() {
+    return Positioned(
+      right: 10,
+      top: 7,
+      child: IconButton(
+        onPressed: () {
+          _titleController.text = widget.segment.title;
+        },
+        icon: const Icon(Icons.restore),
+      ),
+    );
+  }
+
+  Positioned _buildClearContent() {
+    return Positioned(
+      right: 10,
+      top: 5,
+      child: IconButton(
+        onPressed: () {
+          _contentController.text = widget.segment.content;
+        },
+        icon: const Icon(Icons.restore),
+      ),
+    );
+  }
+
 }
 
 class SegmentButton extends StatelessWidget {

@@ -95,6 +95,7 @@ class PasswordFilesDecryptedList extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PasswordFilesTabs(
                   selectedFileIndex: selectedFileIndex,

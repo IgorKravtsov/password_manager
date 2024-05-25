@@ -107,12 +107,14 @@ class _PasswordFileEditableSegmentsState
             return ListView.separated(
                 separatorBuilder: (context, index) => const Divider(),
                 itemCount: searchedSegments.length,
-                scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final segment = searchedSegments[index];
                   return ListTile(
                       title: Text(segment.title),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       subtitle: Text(_getSegmentContent(segment)),
                       onTap: () => _buildBottomSheet(context, segment, index),
                       trailing: IconButton(

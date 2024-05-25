@@ -18,7 +18,7 @@ class PasswordFilesTabs extends StatelessWidget {
     return DefaultTabController(
       initialIndex: selectedFileIndex == -1 ? 0 : selectedFileIndex,
       length: decryptedFiles.length,
-      animationDuration: Durations.long1,
+      animationDuration: Durations.short2,
       child: TabBar(
         onTap: (value) => context
             .read<PasswordFilesDecryptedCubit>()

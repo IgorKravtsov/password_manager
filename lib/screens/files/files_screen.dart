@@ -3,18 +3,61 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:password_manager/entities/config/config.dart';
+
 import 'package:password_manager/generated/l10n.dart';
-import 'package:password_manager/screens/files/_ui/password_files_list.dart';
-import 'package:password_manager/screens/files/_vm/bloc/password_files_bloc.dart';
+
 import 'package:password_manager/shared/lib/configuration_file_reader.dart';
 import 'package:password_manager/shared/lib/dependencies/inherited_dependencies.dart';
 import 'package:password_manager/shared/lib/location.dart';
 import 'package:password_manager/shared/ui/page_title.dart';
-import 'package:password_manager/widgets/main_bottom_navigation_bar/main_bottom_navigation_bar.dart';
+
+import 'package:password_manager/entities/config/config.dart';
+import 'package:password_manager/shared/ui/screen_content.dart';
+
+import 'package:password_manager/widgets/app_layout.dart';
+
+import '_ui/password_files_list.dart';
+import '_vm/bloc/password_files_bloc.dart';
 
 class FilesScreen extends StatelessWidget {
   const FilesScreen({super.key});
+
+  PasswordFilesBloc _createBlocProvider(BuildContext context) {
+    final state = context.read<ConfigurationFileBloc>().state;
+    final bloc =
+        PasswordFilesBloc(configFileReader: const ConfigurationFileReader());
+    if (state is ConfigurationFileLoaded) {
+      bloc.add(PasswordFilesLoad(state.configs));
+    }
+    return bloc;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: _createBlocProvider,
+      child: AppScaffold(
+        selectedRoute: Location.files,
+        floatingActionButton: Builder(builder: (context) {
+          final confState = context.watch<ConfigurationFileBloc>().state;
+          if (confState is! ConfigurationFileLoaded) {
+            return const SizedBox();
+          }
+          return FloatingActionButton(
+            onPressed: () => context
+                .read<PasswordFilesBloc>()
+                .add(const PasswordFilesAdd(pathToFile: '', secretKey: '')),
+            child: const Icon(Icons.add),
+          );
+        }),
+        child: const FilesScreenContent(),
+      ),
+    );
+  }
+}
+
+class FilesScreenContent extends StatelessWidget {
+  const FilesScreenContent({super.key});
 
   void _handleSaveFile(
       ConfigModel config, int index, BuildContext context) async {
@@ -58,22 +101,10 @@ class FilesScreen extends StatelessWidget {
     configurationFileBloc.add(ConfigurationFileReload());
   }
 
-  PasswordFilesBloc _createBlocProvider(BuildContext context) {
-    final state = context.read<ConfigurationFileBloc>().state;
-    final bloc =
-        PasswordFilesBloc(configFileReader: const ConfigurationFileReader());
-    if (state is ConfigurationFileLoaded) {
-      bloc.add(PasswordFilesLoad(state.configs));
-    }
-    return bloc;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: _createBlocProvider,
-      child: Scaffold(
-        body: Padding(
+    return ScreenContent(
+      child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
           child: Column(
             children: [
@@ -87,16 +118,13 @@ class FilesScreen extends StatelessWidget {
                 builder: (context, state) {
                   final configState =
                       context.read<ConfigurationFileBloc>().state;
-                  
-                  if (configState is ConfigurationFileLoading) {
-                    print('==========Loading=========');
+                    
+                if (configState is ConfigurationFileLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  if (configState is! ConfigurationFileLoaded) {
-                    print('==========Loaded=========');
+                if (configState is! ConfigurationFileLoaded) {
                     return _buildErrorElements(context);
-                  }
-                  print('==========NO IF=========');
+                }
                   return PasswordFilesList(
                     configs: state.configs,
                     onSaveFile: _handleSaveFile,
@@ -106,17 +134,7 @@ class FilesScreen extends StatelessWidget {
                 },
               ),
             ],
-          ),
         ),
-        floatingActionButton: Builder(builder: (context) {
-          return FloatingActionButton(
-            onPressed: () => context
-                .read<PasswordFilesBloc>()
-                .add(const PasswordFilesAdd(pathToFile: '', secretKey: '')),
-            child: const Icon(Icons.add),
-          );
-        }),
-        bottomNavigationBar: const MainBottomNavigationBar(currentIndex: 1),
       ),
     );
   }
