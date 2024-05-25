@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:password_manager/entities/password_file/password_file.dart';
 import 'package:password_manager/generated/l10n.dart';
+import 'package:password_manager/shared/lib/location.dart';
 
 import '../_vm/cubit/password_files_decrypted_cubit.dart';
 import 'password_segment_element.dart';
@@ -84,6 +87,10 @@ class _PasswordFileEditableSegmentsState
       child: Stack(children: [
         BlocBuilder<PasswordFilesDecryptedCubit, DecryptedPasswordFilesState>(
           builder: (context, state) {
+
+            if (widget.passwordFile.isError == true) {
+              return ErrorMessage(widget: widget);
+            }
 
             if (widget.passwordFile.segments.isEmpty) {
               return _buildEmptyState();
@@ -223,6 +230,64 @@ class _PasswordFileEditableSegmentsState
           ),
         );
       },
+    );
+  }
+}
+
+class ErrorMessage extends StatelessWidget {
+  const ErrorMessage({
+    super.key,
+    required this.widget,
+  });
+
+  final PasswordFileEditableSegments widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height - heightDiffForAddButton,
+        maxHeight: MediaQuery.of(context).size.height - heightDiffForAddButton,
+      ),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              widget.passwordFile.errorMessage ?? '',
+              style: const TextStyle().copyWith(
+                color: Theme.of(context).colorScheme.error,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Error with this file or password. Please check the file or try to decrypt it again.',
+              style: const TextStyle().copyWith(
+                color: Theme.of(context).colorScheme.error,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () {
+                context.go(Location.files);
+              },
+              child: Text(S.of(context).lookConfiguration),
+            ),
+            const SizedBox(height: 10),
+            Text(S.of(context).or.toUpperCase()),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                context.go(Location.settings);
+              },
+              child: Text(S.of(context).settings),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

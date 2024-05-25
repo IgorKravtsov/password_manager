@@ -5,11 +5,15 @@ class PasswordFileModel extends Equatable {
   final String pathToFile;
   final String secretKey;
   final List<PasswordFileSegmentModel> segments;
+  final bool? isError;
+  final String? errorMessage;
 
   const PasswordFileModel({
     required this.secretKey,
     required this.pathToFile,
     required this.segments,
+    this.isError = false,
+    this.errorMessage,
   });
 
   PasswordFileModel copyWith({
@@ -27,5 +31,6 @@ class PasswordFileModel extends Equatable {
   String get fileName => pathToFile.split('/').last;
 
   @override
-  List<Object?> get props => [pathToFile, segments, secretKey];
+  List<Object?> get props =>
+      [pathToFile, segments, secretKey, isError, errorMessage];
 }

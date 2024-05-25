@@ -21,9 +21,7 @@ class _ConfigurationFormState extends State<ConfigurationForm> {
   @override
   void initState() {
     final state = context.read<ConfigurationFileBloc>().state;
-    print('========STATE:  $state======'); // ignore: avoid_print
     if (state is ConfigurationFileLoaded) {
-      print('state.path: ${state.path}'); // ignore: avoid_print
       _filePathController.text = state.path;
     }
     super.initState();

@@ -62,7 +62,9 @@ class _SearchSegmentsState extends State<SearchSegments> {
             labelText: S.of(context).search,
             prefixIcon: const Icon(Icons.search),
             suffixIcon: IconButton(
-                onPressed: _clearSearch, icon: const Icon(Icons.clear)),
+              onPressed: _clearSearch,
+              icon: const Icon(Icons.clear),
+            ),
             border: const OutlineInputBorder()),
         onChanged: _onSearchChanged,
       ),

@@ -40,9 +40,10 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
   void decryptPasswordFiles(List<ConfigModel> configs) async {
     if (configs.isEmpty) return;
 
-    try {
       final List<PasswordFileModel> decryptedFiles = [];
-      for (var config in configs) {
+    // try {
+    for (var config in configs) {
+      try {
         final file = File(config.pathToFile);
         final bytes = await file.readAsBytes();
         final ecryptedContent = String.fromCharCodes(bytes);
@@ -54,20 +55,38 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
           secretKey: config.secretKey,
           pathToFile: config.pathToFile,
           segments: segments,
-          // segments: FAKE_SEGMENTS,
         ));
+      } catch (e) {
+        log('error: $e');
+        decryptedFiles.add(PasswordFileModel(
+          secretKey: config.secretKey,
+          pathToFile: config.pathToFile,
+          segments: const [],
+          isError: true,
+          errorMessage: e.toString(),
+        ));
+        // emit(
+        //   PasswordFilesDecryptionFailed(
+        //     decryptedFiles: decryptedFiles,
+        //     message: e.toString(),
+        //   ),
+        // );
       }
-      emit(DecryptedPasswordFilesState(
-        decryptedFiles: decryptedFiles,
-        selectedFile: decryptedFiles.first,
-      ));
-    } catch (e) {
-      log('error: $e');
-      emit(
-        PasswordFilesDecryptionFailed(
-            decryptedFiles: const [], message: e.toString()),
-      );
+        
     }
+    emit(DecryptedPasswordFilesState(
+      decryptedFiles: decryptedFiles,
+      selectedFile: decryptedFiles.first,
+    ));
+    // } catch (e) {
+    //   log('error: $e');
+    //   emit(
+    //     PasswordFilesDecryptionFailed(
+    //       decryptedFiles: decryptedFiles,
+    //       message: e.toString(),
+    //     ),
+    //   );
+    // }
   }
 
   Future<void> saveSegments({

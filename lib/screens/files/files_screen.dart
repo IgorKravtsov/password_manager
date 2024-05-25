@@ -1,3 +1,4 @@
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,11 +25,14 @@ class FilesScreen extends StatelessWidget {
     }
     final configState = configurationFileBloc.state as ConfigurationFileLoaded;
 
+    final completer = Completer<void>();
     context.read<PasswordFilesBloc>().add(PasswordFilesSave(
           pathToConfigFile: configState.path,
           config: config,
           index: index,
+          completer: completer,
         ));
+    await completer.future;
     configurationFileBloc.add(ConfigurationFileReload());
   }
 
@@ -43,11 +47,14 @@ class FilesScreen extends StatelessWidget {
       return;
     }
     final configState = configurationFileBloc.state as ConfigurationFileLoaded;
+    final completer = Completer<void>();
     context.read<PasswordFilesBloc>().add(PasswordFilesRemove(
           index: index,
           pathToConfigFile: configState.path,
+          completer: completer,
         ));
 
+    await completer.future;
     configurationFileBloc.add(ConfigurationFileReload());
   }
 
@@ -80,12 +87,16 @@ class FilesScreen extends StatelessWidget {
                 builder: (context, state) {
                   final configState =
                       context.read<ConfigurationFileBloc>().state;
+                  
                   if (configState is ConfigurationFileLoading) {
+                    print('==========Loading=========');
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (configState is! ConfigurationFileLoaded) {
+                    print('==========Loaded=========');
                     return _buildErrorElements(context);
                   }
+                  print('==========NO IF=========');
                   return PasswordFilesList(
                     configs: state.configs,
                     onSaveFile: _handleSaveFile,

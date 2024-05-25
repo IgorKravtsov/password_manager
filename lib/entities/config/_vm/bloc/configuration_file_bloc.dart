@@ -33,7 +33,6 @@ class ConfigurationFileBloc
   ) async {
     try {
       final path = await _database.readPathToConfigFile();
-      print('path: $path');
       if (path == null) {
         emit(const ConfigurationFileError('No configuration file selected'));
         return;
@@ -93,13 +92,12 @@ class ConfigurationFileBloc
       if (state is! ConfigurationFileLoaded) return;
       final loadedState = state as ConfigurationFileLoaded;
 
-      emit(ConfigurationFileLoading());
+      // emit(ConfigurationFileLoading());
       final content = await _configurationFileReader.read(loadedState.path);
       final configs = content.map(ConfigModel.fromMap).toList();
-      log('configs: ${configs.toString()}');
       emit(ConfigurationFileLoaded(configs: configs, path: loadedState.path));
     } catch (e) {
-      log(e.toString());
+      print(e.toString());
       emit(ConfigurationFileError(e.toString()));
     }
   }

@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:bloc/bloc.dart';
+import 'package:talker_bloc_logger/talker_bloc_logger.dart';
+import 'package:talker_flutter/talker_flutter.dart';
+
 import 'package:password_manager/entities/password_file/password_file.dart';
 import 'package:password_manager/shared/lib/configuration_file_reader.dart';
 import 'package:password_manager/shared/lib/content_encrypter.dart';
 import 'package:password_manager/shared/lib/database.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 import 'dependencies.dart';
 
@@ -76,29 +79,8 @@ final Map<String, _InitializationStep> _initializationSteps =
       dependencies.passwordFileEncrypter = PasswordFileEncrypter(
         contentEncrypter: dependencies.contentEncrypter,
       ),
-  // 'Shrink database': (dependencies) async {
-  //   if (!Config.environment.isProduction) {
-  //     await dependencies.database.transaction(() async {
-  //       final log = await (dependencies.database
-  //               .select<LogTbl, LogTblData>(dependencies.database.logTbl)
-  //             ..orderBy([
-  //               (tbl) =>
-  //                   OrderingTerm(expression: tbl.id, mode: OrderingMode.desc)
-  //             ])
-  //             ..limit(1, offset: 1000))
-  //           .getSingleOrNull();
-  //       if (log != null) {
-  //         await (dependencies.database.delete(dependencies.database.logTbl)
-  //               ..where((tbl) => tbl.time.isSmallerOrEqualValue(log.time)))
-  //             .go();
-  //       }
-  //     });
-  //   }
-  //   if (DateTime.now().second % 10 == 0)
-  //     await dependencies.database.customStatement('VACUUM;');
-  // },
-  // 'Refresh key value storage': (dependencies) =>
-  //     dependencies.database.refresh(),
+  'Setting up talker for bloc': (dependencies) =>
+      Bloc.observer = TalkerBlocObserver(talker: dependencies.talker),
   'Restore settings': (dependencies) async {
     // await Future.delayed(const Duration(seconds: 3));
   },
