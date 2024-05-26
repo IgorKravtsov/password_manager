@@ -7,9 +7,7 @@ import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/shared/lib/location.dart';
 
 class PasswordsEmptyState extends StatelessWidget {
-  const PasswordsEmptyState({
-    super.key,
-  });
+  const PasswordsEmptyState({super.key});
 
   @override
   Widget build(BuildContext context) {

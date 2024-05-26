@@ -5,9 +5,7 @@ import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/shared/ui/full_width_card.dart';
 
 class ChangeColorCard extends StatelessWidget {
-  const ChangeColorCard({
-    super.key,
-  });
+  const ChangeColorCard({super.key});
 
   @override
   Widget build(BuildContext context) {

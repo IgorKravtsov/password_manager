@@ -223,7 +223,7 @@ class S {
   /// `Seems like you don\'t have password files selected.`
   String get seemsLikeYouDontHavePasswordFilesSelected {
     return Intl.message(
-      'Seems like you don\\\'t have password files selected.',
+      'Seems like you don\'t have password files selected.',
       name: 'seemsLikeYouDontHavePasswordFilesSelected',
       desc: '',
       args: [],

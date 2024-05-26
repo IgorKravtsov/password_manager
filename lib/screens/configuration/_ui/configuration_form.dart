@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -35,9 +37,10 @@ class _ConfigurationFormState extends State<ConfigurationForm> {
   }
 
   void _handleSelectFile() async {
+    //TODO: find better way to handle file selection
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['json'],
+      type: Platform.isAndroid ? FileType.any : FileType.custom,
+      allowedExtensions: Platform.isAndroid ? null : ['json'],
     );
     if (result == null) return;
 
