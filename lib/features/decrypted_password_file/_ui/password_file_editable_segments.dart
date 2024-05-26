@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:password_manager/entities/password_file/password_file.dart';
 import 'package:password_manager/generated/l10n.dart';
@@ -104,27 +103,56 @@ class _PasswordFileEditableSegmentsState
               return title.contains(searchText) || content.contains(searchText);
             }).toList();
 
-            return ListView.separated(
-                separatorBuilder: (context, index) => const Divider(),
-                itemCount: searchedSegments.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  final segment = searchedSegments[index];
-                  return ListTile(
-                      title: Text(segment.title),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      subtitle: Text(_getSegmentContent(segment)),
-                      onTap: () => _buildBottomSheet(context, segment, index),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => _showDeleteDialog(
-                          context: context,
-                          index: index,
-                        ),
-                      ));
-                });
+            return ReorderableListView.builder(
+              itemBuilder: (context, index) {
+                return ListTile(
+                  key: ValueKey(searchedSegments[index]),
+                  title: Text(searchedSegments[index].title),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  subtitle: Text(_getSegmentContent(searchedSegments[index])),
+                  onTap: () => _buildBottomSheet(
+                      context, searchedSegments[index], index),
+                  // trailing: IconButton(
+                  //   icon: const Icon(Icons.delete, color: Colors.red),
+                  //   onPressed: () => _showDeleteDialog(
+                  //     context: context,
+                  //     index: index,
+                  //   ),
+                  // ),
+                );
+              },
+              shrinkWrap: true,
+              itemCount: searchedSegments.length,
+              onReorder: (oldIndex, newIndex) {
+                context
+                    .read<PasswordFilesDecryptedCubit>()
+                    .reorderSegments(oldIndex, newIndex);
+              },
+            );
+
+            // return ListView.separated(
+            //     separatorBuilder: (context, index) => const Divider(),
+            //     itemCount: searchedSegments.length,
+            //     shrinkWrap: true,
+            // itemBuilder: (context, index) {
+            //   final segment = searchedSegments[index];
+            //   return ListTile(
+            //       title: Text(segment.title),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(8),
+            //       ),
+            //       subtitle: Text(_getSegmentContent(segment)),
+            //       onTap: () => _buildBottomSheet(context, segment, index),
+            //       trailing: IconButton(
+            //         icon: const Icon(Icons.delete, color: Colors.red),
+            //         onPressed: () => _showDeleteDialog(
+            //           context: context,
+            //           index: index,
+            //         ),
+            //       ));
+            // });
           },
         ),
         Positioned(

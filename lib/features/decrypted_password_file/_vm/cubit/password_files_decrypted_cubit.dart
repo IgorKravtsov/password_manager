@@ -171,4 +171,34 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
       );
     }
   }
+
+  void reorderSegments(int oldIndex, int newIndex) async {
+    final selectedFile = state.selectedFile;
+    if (selectedFile == null) return;
+
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+
+    final segments = List<PasswordFileSegmentModel>.from(selectedFile.segments);
+    final segment = segments.removeAt(oldIndex);
+    segments.insert(newIndex, segment);
+    final newSelectedFile = selectedFile.copyWith(segments: segments);
+
+    try {
+      await _saveToFile(newSelectedFile);
+    } catch (e) {
+      print(e);
+      emit(
+        PasswordFilesSavingFailed(
+          message: e.toString(),
+          decryptedFiles: state.decryptedFiles,
+          selectedFile: state.selectedFile,
+          searchText: state.searchText,
+        ),
+      );
+    }
+
+    emit(state.copyWith(selectedFile: newSelectedFile));
+  }
 }
