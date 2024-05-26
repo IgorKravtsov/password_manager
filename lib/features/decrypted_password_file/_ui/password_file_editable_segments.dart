@@ -130,14 +130,6 @@ class _PasswordFileEditableSegmentsState
                       searchedSegments[index],
                       index,
                     ),
-
-                    // trailing: IconButton(
-                    //   icon: const Icon(Icons.delete, color: Colors.red),
-                    //   onPressed: () => _showDeleteDialog(
-                    //     context: context,
-                    //     index: index,
-                    //   ),
-                    // ),
                   ),
                 );
               },
@@ -148,28 +140,6 @@ class _PasswordFileEditableSegmentsState
                     .read<PasswordFilesDecryptedCubit>()
                     .reorderSegments,
             );
-
-            // return ListView.separated(
-            //     separatorBuilder: (context, index) => const Divider(),
-            //     itemCount: searchedSegments.length,
-            //     shrinkWrap: true,
-            // itemBuilder: (context, index) {
-            //   final segment = searchedSegments[index];
-            //   return ListTile(
-            //       title: Text(segment.title),
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(8),
-            //       ),
-            //       subtitle: Text(_getSegmentContent(segment)),
-            //       onTap: () => _buildBottomSheet(context, segment, index),
-            //       trailing: IconButton(
-            //         icon: const Icon(Icons.delete, color: Colors.red),
-            //         onPressed: () => _showDeleteDialog(
-            //           context: context,
-            //           index: index,
-            //         ),
-            //       ));
-            // });
           },
         ),
         Positioned(
