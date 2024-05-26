@@ -13,11 +13,11 @@ class ExportDecryptedFileButton extends StatelessWidget {
   });
 
   void _exportFile(BuildContext context) async {
-    final vm = context.read<PasswordFilesDecryptedCubit>();
+    final cubit = context.read<PasswordFilesDecryptedCubit>();
     final directory = await FilePicker.platform.getDirectoryPath();
 
     if (directory == null) return;
-    vm.exportDecryptedFile(directory);
+    cubit.exportDecryptedFile(directory);
   }
 
   @override

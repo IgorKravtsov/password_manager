@@ -114,13 +114,10 @@ class _PasswordFileEditableSegmentsState
                     child: const Icon(Icons.delete, color: Colors.white),
                   ),
                   confirmDismiss: (direction) async {
-                    if (direction == DismissDirection.startToEnd) {
                       return await _showDeleteDialog(
                         context: context,
                         index: index,
-                      );
-                    }
-                    return null;
+                    );
                   },
                   child: ListTile(
                     title: Text(searchedSegments[index].title),
@@ -214,8 +211,10 @@ class _PasswordFileEditableSegmentsState
                     ),
                     null);
               },
-              child: Text(S.of(context).addIt
-              )),
+            child: Text(
+              S.of(context).addIt,
+            ),
+          ),
         ],
       ));
 
@@ -241,7 +240,7 @@ class _PasswordFileEditableSegmentsState
                   onSave: _handleSave,
                   onDelete: _showDeleteDialog,
                 ),
-                const SizedBox(height: 50)
+                // const SizedBox(height: 10)
               ],
             ),
           ]

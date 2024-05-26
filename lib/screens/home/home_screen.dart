@@ -56,9 +56,7 @@ class PasswordsContentDependingOnState extends StatelessWidget {
         }
 
         if (state is ConfigurationFileLoaded) {
-          return const Expanded(
-            child: PasswordFilesDecryptedList(),
-          );
+          return const Expanded(child: PasswordFilesDecryptedList());
         }
 
         return const Center(child: CircularProgressIndicator());

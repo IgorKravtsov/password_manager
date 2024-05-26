@@ -158,7 +158,9 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
 
     try {
       await _decryptedPasswordFileSaver.save(
-          filePath, state.selectedFile!.segments);
+        filePath,
+        state.selectedFile!.segments,
+      );
     } catch (e) {
       log('error: $e');
       emit(

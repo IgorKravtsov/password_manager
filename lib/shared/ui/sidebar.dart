@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/shared/lib/location.dart';
 
 class MenuItem {
@@ -34,19 +35,19 @@ class Sidebar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const MenuItem(
+            MenuItem(
               route: Location.home,
-              title: 'Home',
+              title: S.of(context).secureData,
               icon: Icons.folder,
             ),
-            const MenuItem(
+            MenuItem(
               route: Location.files,
-              title: 'Files',
+              title: S.of(context).passwordFilesList,
               icon: Icons.list_alt,
             ),
-            const MenuItem(
+            MenuItem(
               route: Location.settings,
-              title: 'Settings',
+              title: S.of(context).settings,
               icon: Icons.settings,
             )
           ].map((route) => _buildItem(context, route)).toList(),
@@ -56,8 +57,6 @@ class Sidebar extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, MenuItem item) {
-    // const borderRadius = BorderRadius.only(
-    //     topRight: Radius.circular(32), bottomRight: Radius.circular(32));
     final borderRadius = BorderRadius.circular(8);
     return Column(
       children: [
@@ -66,7 +65,7 @@ class Sidebar extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: borderRadius),
           title: Text(
             item.title,
-            style: const TextStyle().copyWith(fontSize: 18),
+            style: const TextStyle().copyWith(fontSize: 14),
           ),
           leading: Icon(item.icon),
           selected: selectedRoute == item.route,
