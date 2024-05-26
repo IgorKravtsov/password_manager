@@ -105,31 +105,51 @@ class _PasswordFileEditableSegmentsState
 
             return ReorderableListView.builder(
               itemBuilder: (context, index) {
-                return ListTile(
+                return Dismissible(
                   key: ValueKey(searchedSegments[index]),
-                  title: Text(searchedSegments[index].title),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.only(left: 20),
+                    child: const Icon(Icons.delete, color: Colors.white),
                   ),
-                  subtitle: Text(_getSegmentContent(searchedSegments[index])),
-                  onTap: () => _buildBottomSheet(
-                      context, searchedSegments[index], index),
-                  // trailing: IconButton(
-                  //   icon: const Icon(Icons.delete, color: Colors.red),
-                  //   onPressed: () => _showDeleteDialog(
-                  //     context: context,
-                  //     index: index,
-                  //   ),
-                  // ),
+                  confirmDismiss: (direction) async {
+                    if (direction == DismissDirection.startToEnd) {
+                      return await _showDeleteDialog(
+                        context: context,
+                        index: index,
+                      );
+                    }
+                    return null;
+                  },
+                  child: ListTile(
+                    title: Text(searchedSegments[index].title),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    subtitle: Text(_getSegmentContent(searchedSegments[index])),
+                    onTap: () => _buildBottomSheet(
+                      context,
+                      searchedSegments[index],
+                      index,
+                    ),
+
+                    // trailing: IconButton(
+                    //   icon: const Icon(Icons.delete, color: Colors.red),
+                    //   onPressed: () => _showDeleteDialog(
+                    //     context: context,
+                    //     index: index,
+                    //   ),
+                    // ),
+                  ),
                 );
               },
               shrinkWrap: true,
               itemCount: searchedSegments.length,
-              onReorder: (oldIndex, newIndex) {
-                context
+              onReorder:
+                  context
                     .read<PasswordFilesDecryptedCubit>()
-                    .reorderSegments(oldIndex, newIndex);
-              },
+                    .reorderSegments,
             );
 
             // return ListView.separated(
@@ -158,8 +178,8 @@ class _PasswordFileEditableSegmentsState
         Positioned(
           bottom: 30,
           right: 30,
-          width: 75,
-          height: 75,
+          width: 60,
+          height: 60,
           child: FloatingActionButton(
             tooltip: S.of(context).add,
             onPressed: () {
@@ -231,8 +251,11 @@ class _PasswordFileEditableSegmentsState
     );
   }
 
-  void _showDeleteDialog({required BuildContext context, required int index}) {
-    showDialog(
+  Future<bool?> _showDeleteDialog({
+    required BuildContext context,
+    required int index,
+  }) {
+    return showDialog<bool?>(
       context: context,
       builder: (innerContext) {
         return BlocProvider.value(
@@ -241,13 +264,13 @@ class _PasswordFileEditableSegmentsState
             title: Text(S.of(context).areYouSureYouWantToDeleteThisItem),
             actions: [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.of(context).pop(false),
                 child: Text(S.of(context).cancel),
               ),
               TextButton(
                 onPressed: () {
                   _handleDelete(index);
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(true);
                 },
                 style: const ButtonStyle().copyWith(
                   foregroundColor: WidgetStateProperty.all(

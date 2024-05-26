@@ -180,13 +180,23 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
       newIndex -= 1;
     }
 
-    final segments = List<PasswordFileSegmentModel>.from(selectedFile.segments);
-    final segment = segments.removeAt(oldIndex);
-    segments.insert(newIndex, segment);
-    final newSelectedFile = selectedFile.copyWith(segments: segments);
-
     try {
+      final segments =
+          List<PasswordFileSegmentModel>.from(selectedFile.segments);
+      final segment = segments.removeAt(oldIndex);
+      segments.insert(newIndex, segment);
+      final newSelectedFile = selectedFile.copyWith(segments: segments);
+
+      final decryptedFiles = state.decryptedFiles;
+      final decryptedFilesIndex =
+          decryptedFiles.indexWhere((element) => element == selectedFile);
+      decryptedFiles[decryptedFilesIndex] = newSelectedFile;
+
       await _saveToFile(newSelectedFile);
+      emit(state.copyWith(
+        decryptedFiles: decryptedFiles,
+        selectedFile: newSelectedFile,
+      ));
     } catch (e) {
       print(e);
       emit(
@@ -199,6 +209,18 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
       );
     }
 
-    emit(state.copyWith(selectedFile: newSelectedFile));
+    // try {
+    // } catch (e) {
+    //   print(e);
+    //   emit(
+    //     PasswordFilesSavingFailed(
+    //       message: e.toString(),
+    //       decryptedFiles: state.decryptedFiles,
+    //       selectedFile: state.selectedFile,
+    //       searchText: state.searchText,
+    //     ),
+    //   );
+    // }
+    
   }
 }
