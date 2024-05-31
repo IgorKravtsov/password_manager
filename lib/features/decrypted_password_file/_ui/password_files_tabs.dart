@@ -22,7 +22,7 @@ class PasswordFilesTabs extends StatelessWidget {
       child: TabBar(
         onTap: (value) => context
             .read<PasswordFilesDecryptedCubit>()
-            .selectFile(decryptedFiles[value]),
+            .selectTab(decryptedFiles[value]),
         isScrollable: true,
         dividerColor: Colors.transparent,
         tabs: decryptedFiles

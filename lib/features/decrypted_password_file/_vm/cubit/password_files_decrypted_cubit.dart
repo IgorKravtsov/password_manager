@@ -92,7 +92,6 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
   Future<void> saveSegments({
     required PasswordFileModel passwordFile,
     required List<PasswordFileSegmentModel> segments,
-    Completer<void>? completer,
   }) async {
     final decryptedFiles = state.decryptedFiles;
     final index =
@@ -110,13 +109,11 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
         PasswordFilesDecryptionFailed(
             decryptedFiles: state.decryptedFiles, message: e.toString()),
       );
-    } finally {
-      completer?.complete();
-    }
+    } 
   }
 
-  void selectFile(PasswordFileModel file) async {
-      emit(state.copyWith(selectedFile: file));
+  void selectTab(PasswordFileModel file) async {
+    emit(state.copyWith(selectedFile: file));
     await _database.saveLastSelectedFilePath(file.pathToFile);
   }
 
@@ -209,20 +206,6 @@ class PasswordFilesDecryptedCubit extends Cubit<DecryptedPasswordFilesState> {
           searchText: state.searchText,
         ),
       );
-    }
-
-    // try {
-    // } catch (e) {
-    //   print(e);
-    //   emit(
-    //     PasswordFilesSavingFailed(
-    //       message: e.toString(),
-    //       decryptedFiles: state.decryptedFiles,
-    //       selectedFile: state.selectedFile,
-    //       searchText: state.searchText,
-    //     ),
-    //   );
-    // }
-    
+    }    
   }
 }

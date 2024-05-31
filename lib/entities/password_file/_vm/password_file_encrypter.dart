@@ -1,5 +1,6 @@
 import 'package:password_manager/entities/password_file/_vm/models/password_file_segment_model.dart';
 import 'package:password_manager/shared/lib/content_encrypter.dart';
+import 'package:uuid/uuid.dart';
 
 abstract interface class IPasswordFileEncrypter {
   Future<List<PasswordFileSegmentModel>> decryptSegments(
@@ -45,6 +46,7 @@ class PasswordFileEncrypter implements IPasswordFileEncrypter {
       result.add(PasswordFileSegmentModel(
         title: titleContent[0],
         content: titleContent[1],
+        id: const Uuid().v4(),
       ));
     }
     return result;

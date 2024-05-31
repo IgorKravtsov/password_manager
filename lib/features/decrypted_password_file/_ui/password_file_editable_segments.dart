@@ -31,6 +31,7 @@ class PasswordFileEditableSegments extends StatefulWidget {
 
 class _PasswordFileEditableSegmentsState
     extends State<PasswordFileEditableSegments> {
+
   void _handleSave({
     required BuildContext context,
     required PasswordFileSegmentModel segment,
@@ -41,31 +42,29 @@ class _PasswordFileEditableSegmentsState
     if (isNew) {
       segments.insert(0, segment);
     } else {
-      segments[index] = segment;
+      final newSegmentIdx =
+          segments.indexWhere((element) => element.id == segment.id);
+      segments[newSegmentIdx] = segment;
     }
-    final completer = Completer<void>();
     final navigator = Navigator.of(context);
-    context.read<PasswordFilesDecryptedCubit>().saveSegments(
+    await context.read<PasswordFilesDecryptedCubit>().saveSegments(
           passwordFile: widget.passwordFile,
           segments: segments,
-          completer: completer,
         );
-    await completer.future;
-    navigator.pop();
+    if (navigator.canPop()) navigator.pop();
     //TODO: find the way to rerender the list after saving data
     setState(() {});
   }
 
   void _handleDelete(int index) async {
     final segments = widget.passwordFile.segments;
-    segments.removeAt(index);
-    final completer = Completer<void>();
+    // segments.removeAt(index);
+    // segments.removeWhere((element) => element.id == segments[index].id);
     final navigator = Navigator.of(context);
-    context.read<PasswordFilesDecryptedCubit>().saveSegments(
+    await context.read<PasswordFilesDecryptedCubit>().saveSegments(
         passwordFile: widget.passwordFile,
-        segments: segments,
-        completer: completer);
-    await completer.future;
+          segments: segments,
+        );
     if (navigator.canPop()) navigator.pop();
     setState(() {});
   }
