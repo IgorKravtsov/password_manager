@@ -102,6 +102,11 @@ class _PasswordFileEditableSegmentsState
             }).toList();
 
             return ReorderableListView.builder(
+              shrinkWrap: true,
+              itemCount: searchedSegments.length,
+              buildDefaultDragHandles: searchText.isEmpty,
+              onReorder:
+                  context.read<PasswordFilesDecryptedCubit>().reorderSegments,
               itemBuilder: (context, index) {
                 return Dismissible(
                   key: ValueKey(searchedSegments[index]),
@@ -131,13 +136,7 @@ class _PasswordFileEditableSegmentsState
                   ),
                 );
               },
-              shrinkWrap: true,
-              itemCount: searchedSegments.length,
-              buildDefaultDragHandles: searchText.isEmpty,
-              onReorder:
-                  context
-                    .read<PasswordFilesDecryptedCubit>()
-                    .reorderSegments,
+              
             );
           },
         ),
