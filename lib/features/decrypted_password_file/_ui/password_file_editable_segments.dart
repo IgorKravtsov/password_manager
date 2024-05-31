@@ -58,7 +58,6 @@ class _PasswordFileEditableSegmentsState
 
   void _handleDelete(String? id) async {
     final segments = widget.passwordFile.segments;
-    // segments.removeAt(index);
     segments.removeWhere((element) => element.id == id);
     final navigator = Navigator.of(context);
     await context.read<PasswordFilesDecryptedCubit>().saveSegments(
@@ -134,6 +133,7 @@ class _PasswordFileEditableSegmentsState
               },
               shrinkWrap: true,
               itemCount: searchedSegments.length,
+              buildDefaultDragHandles: searchText.isEmpty,
               onReorder:
                   context
                     .read<PasswordFilesDecryptedCubit>()
