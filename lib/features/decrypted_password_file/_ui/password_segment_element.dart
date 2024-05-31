@@ -15,7 +15,7 @@ class PasswordFileSegmentElement extends StatefulWidget {
 
   final void Function({
     required BuildContext context,
-    required int index,
+    String? id,
   })? onDelete;
 
   const PasswordFileSegmentElement({
@@ -73,7 +73,7 @@ class _PasswordFileSegmentElementState
                 IconButton(
                   onPressed: widget.index != null
                       ? () => widget.onDelete
-                          ?.call(context: context, index: widget.index!)
+                          ?.call(context: context, id: widget.segment.id)
                       : null,
                   icon: Icon(
                     Icons.delete,

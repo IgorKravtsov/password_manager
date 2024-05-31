@@ -56,10 +56,10 @@ class _PasswordFileEditableSegmentsState
     setState(() {});
   }
 
-  void _handleDelete(int index) async {
+  void _handleDelete(String? id) async {
     final segments = widget.passwordFile.segments;
     // segments.removeAt(index);
-    // segments.removeWhere((element) => element.id == segments[index].id);
+    segments.removeWhere((element) => element.id == id);
     final navigator = Navigator.of(context);
     await context.read<PasswordFilesDecryptedCubit>().saveSegments(
         passwordFile: widget.passwordFile,
@@ -115,7 +115,7 @@ class _PasswordFileEditableSegmentsState
                   confirmDismiss: (direction) async {
                       return await _showDeleteDialog(
                         context: context,
-                        index: index,
+                      id: searchedSegments[index].id,
                     );
                   },
                   child: ListTile(
@@ -221,7 +221,7 @@ class _PasswordFileEditableSegmentsState
 
   Future<bool?> _showDeleteDialog({
     required BuildContext context,
-    required int index,
+    String? id,
   }) {
     return showDialog<bool?>(
       context: context,
@@ -237,7 +237,7 @@ class _PasswordFileEditableSegmentsState
               ),
               TextButton(
                 onPressed: () {
-                  _handleDelete(index);
+                  _handleDelete(id);
                   Navigator.of(context).pop(true);
                 },
                 style: const ButtonStyle().copyWith(
