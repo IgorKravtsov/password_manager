@@ -7,6 +7,7 @@ class Location {
   static const settings = '/settings';
   static const theme = '/settings/theme';
   static const configuration = '/settings/config';
+  static const sync = '/settings/sync';
 
   static String path(String path) {
     return path.substring(path.lastIndexOf('/') + 1, path.length);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:password_manager/shared/lib/repositories/github_repository/github_repository.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 import 'package:password_manager/shared/lib/database.dart';
@@ -26,6 +27,8 @@ abstract interface class Dependencies {
   abstract final Talker talker;
 
   abstract final IDatabase database;
+
+  abstract final IGithubRepository githubRepository;
 
   // /// App metadata
   // abstract final AppMetadata appMetadata;
@@ -71,6 +74,7 @@ final class $MutableDependencies implements Dependencies {
         decryptedPasswordFileSaver: decryptedPasswordFileSaver,
         passwordFileEncrypter: passwordFileEncrypter,
         talker: talker,
+        githubRepository: githubRepository,
       );
 
   @override
@@ -90,6 +94,9 @@ final class $MutableDependencies implements Dependencies {
 
   @override
   late Talker talker;
+
+  @override
+  late IGithubRepository githubRepository;
 }
 
 final class _$ImmutableDependencies implements Dependencies {
@@ -100,6 +107,7 @@ final class _$ImmutableDependencies implements Dependencies {
     required this.database,
     required this.passwordFileEncrypter,
     required this.talker,
+    required this.githubRepository,
   });
 
   @override
@@ -119,4 +127,7 @@ final class _$ImmutableDependencies implements Dependencies {
 
   @override
   final Talker talker;
+
+  @override
+  final IGithubRepository githubRepository;
 }

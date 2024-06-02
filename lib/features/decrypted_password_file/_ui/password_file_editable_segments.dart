@@ -61,7 +61,7 @@ class _PasswordFileEditableSegmentsState
     segments.removeWhere((element) => element.id == id);
     final navigator = Navigator.of(context);
     await context.read<PasswordFilesDecryptedCubit>().saveSegments(
-        passwordFile: widget.passwordFile,
+          passwordFile: widget.passwordFile,
           segments: segments,
         );
     if (navigator.canPop()) navigator.pop();
@@ -154,7 +154,8 @@ class _PasswordFileEditableSegmentsState
                     content: '',
                     title: '',
                   ),
-                  null);
+                null,
+              );
             },
             child: const Icon(Icons.add),
           ),
@@ -170,15 +171,16 @@ class _PasswordFileEditableSegmentsState
           Text(S.of(context).noSegmentsFound),
           const SizedBox(height: 20),
           FilledButton(
-              onPressed: () {
-                _buildBottomSheet(
-                    context,
-                    const PasswordFileSegmentModel(
-                      content: '',
-                      title: '',
-                    ),
-                    null);
-              },
+            onPressed: () {
+              _buildBottomSheet(
+                context,
+                const PasswordFileSegmentModel(
+                  content: '',
+                  title: '',
+                ),
+                null,
+              );
+            },
             child: Text(
               S.of(context).addIt,
             ),

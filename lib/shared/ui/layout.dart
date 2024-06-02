@@ -8,7 +8,10 @@ class Layout extends InheritedWidget {
   static const tablet = 1;
   static const desktop = 2;
 
-  const Layout({
+  static const desktopWidth = 1200;
+  static const tabletWidth = 600;
+
+  const Layout._({
     super.key,
     required super.child,
     required this.type,
@@ -20,16 +23,31 @@ class Layout extends InheritedWidget {
     Widget Function(BuildContext context, int type) builder,
   ) {
     final size = MediaQuery.of(context).size;
-    if (size.width >= 1200) {
-      return Layout(
-          type: desktop, size: size, child: builder(context, desktop));
+    if (size.width >= desktopWidth) {
+      return Layout._(
+        type: desktop,
+        size: size,
+        child: builder(context, desktop),
+      );
     }
-    if (size.width >= 600) {
-      return Layout(type: tablet, size: size, child: builder(context, tablet));
+    if (size.width >= tabletWidth) {
+      return Layout._(
+        type: tablet,
+        size: size,
+        child: builder(context, tablet),
+      );
     }
 
-    return Layout(type: phone, size: size, child: builder(context, phone));
+    return Layout._(type: phone, size: size, child: builder(context, phone));
   }
+
+  static isPhone(BuildContext context) =>
+      MediaQuery.of(context).size.width < tabletWidth;
+  static isTablet(BuildContext context) =>
+      MediaQuery.of(context).size.width >= tabletWidth &&
+      MediaQuery.of(context).size.width < desktopWidth;
+  static isDesktop(BuildContext context) =>
+      MediaQuery.of(context).size.width >= desktopWidth;
 
   static Layout of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Layout>()!;
@@ -39,8 +57,4 @@ class Layout extends InheritedWidget {
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {
     return false;
   }
-
-  bool isPhone() => type == phone;
-  bool isTablet() => type == tablet;
-  bool isDesktop() => type == desktop;
 }

@@ -17,12 +17,47 @@ abstract interface class IDatabase {
 
   Future<void> saveLocale(String locale);
   Future<String?> readLocale();
+
+  Future<void> save(String key, dynamic value);
+  Future<dynamic> read(String key);
 }
 
 class HiveDatabase implements IDatabase {
   static const _boxName = 'password_manager';
 
   late final Box _box;
+
+  String _validatedKey(String key) {
+    final keyToSave = {
+      'pathToConfigFile': 'pathToConfigFile',
+      'isDarkMode': 'isDarkMode',
+      'themeId': 'themeId',
+      'lastSelectedFilePath': 'lastSelectedFilePath',
+      'locale': 'locale',
+      'githubAccessToken': 'githubAccessToken',
+      // 'githubDeviceCode': 'githubDeviceCode',
+      // 'githubUserCode': 'githubUserCode',
+      'githubRefreshToken': 'githubRefreshToken',
+      'githubAccessTokenExpires': 'githubAccessTokenExpires',
+      'githubRefreshTokenExpires': 'githubRefreshTokenExpires',
+    }[key];
+
+    if (keyToSave == null) throw ArgumentError('Invalid key: $key');
+
+    return keyToSave;
+  }
+
+  @override
+  Future read(String key) {
+    final keyToSave = _validatedKey(key);
+    return Future(() => _box.get(keyToSave));
+  }
+
+  @override
+  Future<void> save(String key, value) async {
+    final keyToSave = _validatedKey(key);
+    await _box.put(keyToSave, value);
+  }
 
   @override
   Future<void> init() async {
@@ -79,4 +114,6 @@ class HiveDatabase implements IDatabase {
   Future<void> saveLocale(String locale) async {
     await _box.put('locale', locale);
   }
+
+  
 }

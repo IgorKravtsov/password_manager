@@ -45,5 +45,6 @@
   "pleaseEnterAContent": "Будь ласка, введіть вміст",
   "content": "Вміст",
   "pleaseEnterATitle": "Будь ласка, введіть заголовок",
-  "title": "Заголовок"
+  "title": "Заголовок",
+  "sync": "Sync"
 }

@@ -45,5 +45,6 @@
   "pleaseEnterAContent": "Пожалуйста, введите содержимое",
   "content": "Содержимое",
   "pleaseEnterATitle": "Пожалуйста, введите заголовок",
-  "title": "Заголовок"
+  "title": "Заголовок",
+  "sync": "Sync"
 }

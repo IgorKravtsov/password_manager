@@ -8,6 +8,7 @@ import 'package:password_manager/screens/configuration/configuration.dart';
 import 'package:password_manager/screens/files/files.dart';
 import 'package:password_manager/screens/home/home.dart';
 import 'package:password_manager/screens/settings/settings.dart';
+import 'package:password_manager/screens/sync/sync.dart';
 
 final router = GoRouter(
   routes: [
@@ -59,7 +60,17 @@ final router = GoRouter(
                   const ThemeScreen(),
                 );
               },
-            )
+              ),
+              GoRoute(
+                path: Location.path(Location.sync),
+                pageBuilder: (context, state) {
+                  return Location.buildPage(
+                    context,
+                    state.pageKey,
+                    const SyncScreen(),
+                  );
+                },
+              ),
           ]),
     ],
     ),

@@ -519,6 +519,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Sync`
+  String get sync {
+    return Intl.message(
+      'Sync',
+      name: 'sync',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

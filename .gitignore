@@ -44,3 +44,4 @@ app.*.map.json
 
 /installers/windows/*.exe
 /installers/macOS/*.dmg
+.env

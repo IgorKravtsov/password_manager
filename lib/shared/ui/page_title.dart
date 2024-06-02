@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:password_manager/shared/ui/layout.dart';
 
 class PageTitle extends StatelessWidget {
   final String text;
@@ -15,6 +16,7 @@ class PageTitle extends StatelessWidget {
         fontWeight: FontWeight.bold,
         fontSize: 32,
       ),
+      textAlign: Layout.isPhone(context) ? TextAlign.center : TextAlign.start,
     );
   }
 }

@@ -141,14 +141,17 @@ class FilesScreenContent extends StatelessWidget {
 
 
 
-  Center _buildErrorElements(BuildContext context) {
-    return Center(
-      child: FilledButton(
-        onPressed: () => context.go(Location.configuration),
-        child: Text(
-          S.of(context).someErrorOccuredPleaseGoToConfiguration,
+  Widget _buildErrorElements(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 50),
+        FilledButton(
+          onPressed: () => context.go(Location.configuration),
+          child: Text(
+            S.of(context).someErrorOccuredPleaseGoToConfiguration,
+          ),
         ),
-      ),
+      ],
     );
   }
 

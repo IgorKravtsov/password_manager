@@ -25,21 +25,6 @@ class PasswordFilesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return configs.isEmpty
         ? _buildEmptyState(context)
-        // : Expanded(
-        //     child: Column(
-        //       children: [
-        //         for (var i = 0; i < configs.length; i++)
-        // PasswordFileItem(
-        //   key: ValueKey(configs[i].id),
-        //   index: i,
-        //   encryptor: encryptor,
-        //   config: configs[i],
-        //   onDelete: onDeleteFile,
-        //   onSave: onSaveFile,
-        // ),
-        //       ],
-        //     ),
-        //   );
         : Expanded(
             child: ListView.separated(
               separatorBuilder: (context, index) => const Divider(),

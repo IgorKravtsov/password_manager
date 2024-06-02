@@ -14,26 +14,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   body: Layout.builder(context, (context, type) {
-    //     final children = <Widget>[
-    //       const PasswordsContentDependingOnState(),
-    //     ];
-    //     if (type == Layout.desktop) {
-    //       children.insert(0, const Sidebar());
-    //     }
-    //     return Row(
-    //       children: children,
-    //     );
-    //   }),
-    //   bottomNavigationBar: Layout.builder(context, (context, type) {
-    //     if (type == Layout.tablet || type == Layout.phone) {
-    //       return const MainBottomNavigationBar(currentIndex: 0);
-    //     }
-    //     //TODO: remove for desktop size, because we will have a sidebar
-    //     return const MainBottomNavigationBar(currentIndex: 0);
-    //   }),
-    // );
     return const AppScaffold(
       selectedRoute: Location.home,
       child: PasswordsContentDependingOnState(),

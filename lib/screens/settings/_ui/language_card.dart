@@ -6,32 +6,29 @@ import 'package:password_manager/generated/l10n.dart';
 import 'package:password_manager/shared/ui/full_width_card.dart';
 
 class LanguageCard extends StatelessWidget {
-  const LanguageCard({
-    super.key,
-  });
+  const LanguageCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LocaleCubit, Locale>(
       builder: (context, locale) {
         final languageCode = locale.languageCode;
-        String getLanguageName() {
-          switch (languageCode) {
-            case 'en':
-              return 'English';
-            case 'uk':
-              return 'Українська';
-            case 'ru':
-              return 'Русский';
-            default:
-              return 'Unknown';
-          }
-        }
+        final language = {
+          'en': 'English',
+          'uk': 'Українська',
+          'ru': 'Русский',
+        }[languageCode];
+
+        final nextLanguageCode = {
+          'en': 'uk',
+          'uk': 'ru',
+          'ru': 'en',
+        }[languageCode];
 
         return FullWidthCard(
-          onTap: () => context.read<LocaleCubit>().changeLocale(
-                LocaleChanger.getNextCode(languageCode),
-              ),
+          onTap: () => context
+              .read<LocaleCubit>()
+              .changeLocale(nextLanguageCode ?? 'en'),
           child: Row(
             children: [
               const Icon(Icons.translate),
@@ -41,7 +38,7 @@ class LanguageCard extends StatelessWidget {
                 style: const TextStyle().copyWith(fontSize: 22),
               ),
               const Spacer(),
-              Text(getLanguageName()),
+              Text(language ?? 'Unknown'),
             ],
           ),
         );

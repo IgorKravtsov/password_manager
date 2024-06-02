@@ -45,5 +45,6 @@
   "pleaseEnterAContent": "Please enter a content",
   "content": "Content",
   "pleaseEnterATitle": "Please enter a title",
-  "title": "Title"
+  "title": "Title",
+  "sync": "Sync"
 }

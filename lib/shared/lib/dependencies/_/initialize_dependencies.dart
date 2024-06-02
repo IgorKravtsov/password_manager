@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:password_manager/shared/lib/repositories/github_repository/github_repository.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -81,8 +83,11 @@ final Map<String, _InitializationStep> _initializationSteps =
       ),
   'Setting up talker for bloc': (dependencies) =>
       Bloc.observer = TalkerBlocObserver(talker: dependencies.talker),
-  'Restore settings': (dependencies) async {
-    // await Future.delayed(const Duration(seconds: 3));
+  'Reading .env': (dependencies) async {
+    await dotenv.load(fileName: '.env');
+  },
+  'Initializing github repository': (deps) async {
+    deps.githubRepository = GithubRepository();
   },
   // 'Migrate app from previous version': (dependencies) =>
   //     AppMigrator.migrate(dependencies.database),

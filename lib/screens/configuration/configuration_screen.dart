@@ -43,6 +43,7 @@ class ConfigurationScreenContent extends StatelessWidget {
             const SizedBox(height: 50),
             Text(
               S.of(context).chooseDirectoryWhereToSaveConfigurationFile,
+              textAlign: TextAlign.center,
             ),
             Text(
               S.of(context).or,

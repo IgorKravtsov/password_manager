@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:password_manager/generated/l10n.dart';
+import 'package:password_manager/screens/settings/_ui/sync_card.dart';
 import 'package:password_manager/shared/lib/location.dart';
 import 'package:password_manager/shared/ui/page_title.dart';
 import 'package:password_manager/shared/ui/screen_content.dart';
@@ -40,6 +41,8 @@ class SettingsScreenContent extends StatelessWidget {
             const ThemeCard(),
             const SizedBox(height: 20),
             const LanguageCard(),
+            const SizedBox(height: 20),
+            const SyncCard(),
           ],
         ),
       ),

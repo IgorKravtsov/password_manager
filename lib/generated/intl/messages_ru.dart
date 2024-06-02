@@ -98,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "someErrorOccuredPleaseGoToConfiguration":
             MessageLookupByLibrary.simpleMessage(
                 "Произошла ошибка. Пожалуйста, перейдите к конфигурации"),
+        "sync": MessageLookupByLibrary.simpleMessage("Sync"),
         "theme": MessageLookupByLibrary.simpleMessage("Тема"),
         "title": MessageLookupByLibrary.simpleMessage("Заголовок")
       };
